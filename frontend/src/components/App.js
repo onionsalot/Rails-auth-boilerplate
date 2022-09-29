@@ -1,34 +1,37 @@
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react'
-import Dashboard from './Dashboard/Dashboard';
-import Home from './Home/Home';
-import axios from 'axios';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import AdminRoutes from "../routes/AdminRoutes";
+import UserRoutes from "../routes/UserRoutes";
+import { getCurrentUser } from "../helpers/users-api";
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const response = await axios.get("http://localhost:3000/logged_in", { withCredentials: true })
-      console.log('response is=',response)
-      if (response.data.logged_in) {
-        setUser(response.data.user)
-      } else if (!response.data.logged_in) {
-        setUser(null)
+    const currentUser = async () => {
+      const response = await getCurrentUser()
+      if (response && response.data.logged_in) {
+        setUser(response.data.user);
+      } else {
+        setUser(null);
       }
     }
-    getCurrentUser()
-  }, [])
+    currentUser()
+  }, []);
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <Router>
         <Routes>
-          <Route exact path ={"/"} element={<Home user={user} setUser={setUser} />} /> 
-          <Route exact path ={"/dashboard"} element={<Dashboard user={user} setUser={setUser} />} /> 
+          <Route
+            path="*"
+            element={<UserRoutes user={user} setUser={setUser} />}
+          />
+          {/* <Route path="/admin" element={<AdminRoutes />} /> */}
         </Routes>
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }

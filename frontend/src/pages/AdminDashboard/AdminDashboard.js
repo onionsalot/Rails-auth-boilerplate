@@ -1,8 +1,33 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { useQuery } from 'react-apollo'
+import { gql } from 'apollo-boost'
 
 function AdminDashboard() {
-  return <h1>Admin Dashboard</h1>;
+  const GET_POLLS = gql`
+    {
+      users {
+        id
+        email
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(GET_POLLS)
+  if (loading) return 'Loading...'
+  if (error) return `Error :  ${error.message}`
+
+  console.log(data)
+  return(
+    <>
+      <h1>Admin Dashboard</h1>
+      {
+        data.users.map((user) => {
+          return <li>{user.email}</li>
+        })
+      }
+    </>
+  )
 }
 
 export default AdminDashboard;

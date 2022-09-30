@@ -5,6 +5,7 @@ import axios from "axios";
 import AdminRoutes from "../routes/AdminRoutes";
 import UserRoutes from "../routes/UserRoutes";
 import { getCurrentUser } from "../helpers/users-api";
+import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -29,7 +30,8 @@ function App() {
             path="*"
             element={<UserRoutes user={user} setUser={setUser} />}
           />
-          {/* <Route path="/admin" element={<AdminRoutes />} /> */}
+          <Route path="/admin/*" element={<AdminRoutes />} />
+          {/* <Route path="/admin/dashboard" element={<AdminDashboard/>} /> */}
         </Routes>
       </Router>
     </div>

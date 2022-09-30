@@ -5,11 +5,11 @@ import {
   Route,
 } from "react-router-dom";
 
-function AdminRoutes({ admin, setAdmin}) {
+function AdminRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<AdminDashboard admin={admin} />} />
+        <Route path="dashboard" element={<AdminDashboard/>} />
       </Routes>
     </>
   )

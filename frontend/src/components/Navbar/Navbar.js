@@ -8,7 +8,7 @@ const NavBar = ({ user, setUser }) => {
       <h2>Navbar</h2>
       {user ? "" : <Link to="/app/login">Auth Page</Link>}
       <Link to="/app">DashBoard</Link>
-      {user && user.admin ? <li>Admin Dashboard</li> : ""}
+      {user && user.admin ? <Link to="/admin/dashboard">Admin Dashboard</Link> : ""}
       {user ? (
         <>
           <h3>current user: {user.email}</h3> <Logout setUser={setUser} />{" "}

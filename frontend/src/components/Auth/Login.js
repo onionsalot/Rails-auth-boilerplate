@@ -2,25 +2,29 @@ import { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../helpers/users-api";
+import { useUserContext } from "../../components/UserContext/UserContext";
 
-const Login = ({ setUser }) => {
+const Login = () => {
   const navigate = useNavigate();
   const formRef = useRef();
-  const signIn = async (userInfo, setUser) => {
+  const signin = useUserContext().signin;
+
+  const handleLogin = async (userInfo) => {
     const response = await login(userInfo);
     if (response && response.data.logged_in) {
-      setUser(response.data.user);
+      signin(response.data.user);
       navigate("/app/dashboard");
     }
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     const userInfo = {
       user: { email: data.email, password: data.password },
     };
-    signIn(userInfo, setUser);
+    handleLogin(userInfo);
     e.target.reset();
   };
 

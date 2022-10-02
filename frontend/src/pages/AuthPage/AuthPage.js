@@ -3,20 +3,14 @@ import Registration from "../../components/Auth/Registration";
 import Login from "../../components/Auth/Login";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const AuthPage = ({ user, setUser }) => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (user) navigate("/app");
-  }, []);
-
+const AuthPage = () => {
   return (
     <div>
       <div>
         <h1>AuthPage</h1>
-        <Registration setUser={setUser} />
+        <Registration />
         <br />
-        <Login setUser={setUser} />
+        <Login />
       </div>
     </div>
   );

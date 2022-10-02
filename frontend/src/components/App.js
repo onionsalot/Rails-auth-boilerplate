@@ -1,40 +1,27 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 import AdminRoutes from "../routes/AdminRoutes";
 import UserRoutes from "../routes/UserRoutes";
 import { getCurrentUser } from "../helpers/users-api";
-import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
+import { UserContextProvider } from "../components/UserContext/UserContext";
+import ProtectedRoutes from "../routes/ProtectedRoute";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const currentUser = async () => {
-      const response = await getCurrentUser()
-      if (response && response.data.logged_in) {
-        setUser(response.data.user);
-      } else {
-        setUser(null);
-      }
-    }
-    currentUser()
-  }, []);
-
   return (
-    <div className="App">
+    <UserContextProvider>
       <Router>
         <Routes>
           <Route
             path="*"
-            element={<UserRoutes user={user} setUser={setUser} />}
+            element={<UserRoutes />}
           />
           <Route path="/admin/*" element={<AdminRoutes />} />
           {/* <Route path="/admin/dashboard" element={<AdminDashboard/>} /> */}
         </Routes>
       </Router>
-    </div>
+      </UserContextProvider>
   );
 }
 

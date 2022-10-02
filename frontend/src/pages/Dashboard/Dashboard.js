@@ -1,6 +1,7 @@
 import React from "react";
-
-const Dashboard = ({ user, setUser }) => {
+import { useUserContext } from "../../components/UserContext/UserContext";
+const Dashboard = () => {
+  const user = useUserContext().user
   return (
     <div>
       <div>

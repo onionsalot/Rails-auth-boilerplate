@@ -3,16 +3,22 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AuthPage from "../pages/AuthPage/AuthPage";
 import Navbar from "../components/Navbar/Navbar";
 import { Routes, Route } from "react-router-dom";
-
-function UserRoutes({ user, setUser }) {
+import ProtectedRoute from "./ProtectedRoute";
+import { useUserContext } from "../components/UserContext/UserContext";
+function UserRoutes() {
+  const context = useUserContext();
   return (
     <>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
       <Routes>
-        <Route path="/app" element={<Dashboard user={user} />} />
+        <Route path="/app" element={<Dashboard />} />
         <Route
           path="/app/login"
-          element={<AuthPage user={user} setUser={setUser} />}
+          element={
+            <ProtectedRoute isAllowed={!context.user}>
+              <AuthPage />
+            </ProtectedRoute>
+          }
         />
       </Routes>
     </>

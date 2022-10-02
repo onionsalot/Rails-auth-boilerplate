@@ -1,20 +1,20 @@
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../../components/UserContext/UserContext";
+import { logout } from "../../helpers/users-api";
 
-const Logout=({setUser})=>{
-  const logout=async (setUser)=>{
-    await axios.delete("http://localhost:3000/logout", { withCredentials: true })
-    setUser(null)
-  }
-  const handleClick=e=>{
-    e.preventDefault()
-     logout(setUser)
-}
-  return(
+const Logout = () => {
+  const signout = useUserContext().signout;
+  const handleClick = async (e) => {
+    e.preventDefault();
+    await logout();
+    signout();
+  };
+  return (
     <div>
-      <input type="button" value='Logout' onClick={handleClick}/>
-</div>
-)
-}
+      <input type="button" value="Logout" onClick={handleClick} />
+    </div>
+  );
+};
 
-export default Logout
+export default Logout;

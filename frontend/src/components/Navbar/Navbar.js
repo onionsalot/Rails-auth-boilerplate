@@ -1,17 +1,23 @@
-import React from "react";
+import { useContext } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import Logout from "../Auth/Logout";
-const NavBar = ({ user, setUser }) => {
+import { useUserContext } from "../../components/UserContext/UserContext";
+const NavBar = () => {
+  const user = useUserContext().user;
   return (
     <div className="NavBar">
       <h2>Navbar</h2>
       {user ? "" : <Link to="/app/login">Auth Page</Link>}
       <Link to="/app">DashBoard</Link>
-      {user && user.admin ? <Link to="/admin/dashboard">Admin Dashboard</Link> : ""}
+      {user && user.admin ? (
+        <Link to="/admin/dashboard">Admin Dashboard</Link>
+      ) : (
+        ""
+      )}
       {user ? (
         <>
-          <h3>current user: {user.email}</h3> <Logout setUser={setUser} />{" "}
+          <h3>current user: {user.email}</h3> <Logout />{" "}
         </>
       ) : (
         ""

@@ -17,7 +17,6 @@ function AdminDashboard() {
   if (loading) return 'Loading...'
   if (error) return `Error :  ${error.message}`
 
-  console.log(data)
   return(
     <>
       <h1>Admin Dashboard</h1>

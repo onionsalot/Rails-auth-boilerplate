@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import Cookies from "js-cookie"
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
@@ -8,12 +7,16 @@ const Registration = () => {
   const navigate = useNavigate();
   const formRef = useRef();
   const signin = useUserContext().signin;
+  const [errors, setErrors] = useState([])
 
   const handleRegister = async (userInfo) => {
     const response = await signup(userInfo);
-    if (response && response.data.status === "success") {
+    console.log('registration: =>', response)
+    if (response && response.status === 200) {
       signin(response);
       navigate("/app/dashboard");
+    } else if (response.data.errors.full_messages.length > 0) {
+      setErrors([...errors, ...response.data.errors.full_messages])
     }
   };
 
@@ -27,6 +30,10 @@ const Registration = () => {
     handleRegister(userInfo);
     e.target.reset();
   };
+
+  const showErrors = errors.map((e, i) => {
+    return <p className="errors" key={i}>{e}</p>
+  })
 
   return (
     <div>
@@ -47,6 +54,7 @@ const Registration = () => {
         <br />
         <input type="submit" value="Submit" />
       </form>
+      {errors ? showErrors : ""}
     </div>
   );
 };

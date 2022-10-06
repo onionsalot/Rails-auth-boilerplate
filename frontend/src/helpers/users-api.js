@@ -42,7 +42,7 @@ async function sendRequest(url, method = 'GET', payload = null) {
       response = await axios.delete(url, headers())
     }
   } catch (error) {
-    console.log("error", error);
+    return error.response
   }
   console.log('userapi response = ', response)
   return response

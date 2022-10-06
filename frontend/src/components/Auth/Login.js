@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import Cookies from "js-cookie"
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
@@ -8,12 +7,16 @@ const Login = () => {
   const navigate = useNavigate();
   const formRef = useRef();
   const signin = useUserContext().signin;
+  const [errors, setErrors] = useState([])
 
   const handleLogin = async (userInfo) => {
     const response = await login(userInfo);
-    if (response && response.data.data) {
+    console.log('registration: =>', response)
+    if (response && response.status === 200) {
       signin(response);
       navigate("/app/dashboard");
+    } else if (response.data.errors.length > 0) {
+      setErrors([...errors, ...response.data.errors])
     }
   };
 
@@ -28,6 +31,10 @@ const Login = () => {
     e.target.reset();
   };
 
+  const showErrors = errors.map((e, i) => {
+    return <p className="errors" key={i}>{e}</p>
+  })
+
   return (
     <div>
       <h3> Login </h3>
@@ -39,6 +46,7 @@ const Login = () => {
         <br />
         <input type="submit" value="Login" />
       </form>
+      {errors ? showErrors : ""}
     </div>
   );
 };

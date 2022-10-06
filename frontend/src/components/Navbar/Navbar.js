@@ -8,7 +8,6 @@ const NavBar = () => {
   return (
     <div className="NavBar">
       <h2>Navbar</h2>
-      {user ? "" : <Link to="/app/login">Auth Page</Link>}
       <Link to="/app">DashBoard</Link>
       {user && user.admin ? (
         <Link to="/admin/dashboard">Admin Dashboard</Link>
@@ -20,7 +19,7 @@ const NavBar = () => {
           <h3>current user: {user.email}</h3> <Logout />{" "}
         </>
       ) : (
-        ""
+        <Link to="/app/login">Auth Page</Link>
       )}
     </div>
   );

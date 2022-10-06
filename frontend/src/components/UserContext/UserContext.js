@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { getCurrentUser } from "../../helpers/users-api";
+import Cookies from "js-cookie"
 
 // create context
 const UserContext = createContext();
@@ -13,11 +14,17 @@ const UserContextProvider = ({ children }) => {
   const signout = useCallback(() => {
     setUser(null);
     localStorage.removeItem('isLoggedIn');
+    Cookies.remove("_access_token")
+    Cookies.remove("_client")
+    Cookies.remove("_uid")
   }, []);
 
-  const signin = useCallback((user) => {
-    setUser(user)
+  const signin = useCallback((response) => {
+    setUser(response.data.data)
     localStorage.setItem('isLoggedIn', true)
+    Cookies.set("_access_token", response.headers["access-token"])
+    Cookies.set("_client", response.headers["client"])
+    Cookies.set("_uid", response.headers["uid"])
   }, []);
 
   useEffect(() => {
@@ -26,11 +33,11 @@ const UserContextProvider = ({ children }) => {
     if (!isLoggedIn) { return setLoading(false) }
     const fetchUser = async () => {
       const response = await getCurrentUser()
-      if (response && response.data.logged_in) {
-        setUser(response.data.user);
+      console.log('fetchedUser =>', response)
+      if (response && response.data.is_logged_in) {
+        setUser(response.data.data);
       } else {
-        setUser(null);
-        localStorage.removeItem('isLoggedIn');
+        signout()
       }
       setLoading(false)
     }

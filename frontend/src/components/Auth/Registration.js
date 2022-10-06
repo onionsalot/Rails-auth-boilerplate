@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import axios from "axios";
+import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
@@ -11,8 +11,8 @@ const Registration = () => {
 
   const handleRegister = async (userInfo) => {
     const response = await signup(userInfo);
-    if (response && response.data.status === "created") {
-      signin(response.data.user);
+    if (response && response.data.status === "success") {
+      signin(response);
       navigate("/app/dashboard");
     }
   };
@@ -30,17 +30,19 @@ const Registration = () => {
 
   return (
     <div>
+      <h3> Register </h3>
       <form ref={formRef} onSubmit={handleSubmit}>
-        Email: <input type="email" name="email" placeholder="email" />
+        Email: <input type="email" name="email" placeholder="email" required/>
         <br />
         Password:{" "}
-        <input type="password" name="password" placeholder="password" />
+        <input type="password" name="password" placeholder="password" required/>
         <br />
         Password Confirmation:{" "}
         <input
           type="password"
           name="password_confirmation"
           placeholder="Password Confirmation"
+          required
         />
         <br />
         <input type="submit" value="Submit" />

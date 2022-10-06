@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Registration from "../../components/Auth/Registration";
 import Login from "../../components/Auth/Login";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 const AuthPage = () => {
+  const [showLogin, setShowLogin] = useState(true)
+
+  const handleClick = () => {
+    setShowLogin(!showLogin)
+  }
+
   return (
     <div>
       <div>
         <h1>AuthPage</h1>
-        <Registration />
-        <br />
-        <Login />
+        { showLogin 
+          ? <>
+              <Login /> <br /> <p> Don't have an account? <span className="clickable-span" onClick={handleClick}>Register Here</span></p>
+            </>
+          : <>
+              <Registration /> <br /> <p> Already have an account? <span className="clickable-span" onClick={handleClick}>Login Here</span></p>
+            </>
+        }
       </div>
     </div>
   );

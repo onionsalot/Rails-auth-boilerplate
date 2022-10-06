@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import axios from "axios";
+import Cookies from "js-cookie"
 import { useNavigate } from "react-router-dom";
 import { login } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
@@ -11,8 +11,8 @@ const Login = () => {
 
   const handleLogin = async (userInfo) => {
     const response = await login(userInfo);
-    if (response && response.data.logged_in) {
-      signin(response.data.user);
+    if (response && response.data.data) {
+      signin(response);
       navigate("/app/dashboard");
     }
   };
@@ -30,11 +30,12 @@ const Login = () => {
 
   return (
     <div>
+      <h3> Login </h3>
       <form ref={formRef} onSubmit={handleSubmit}>
-        Email: <input type="email" name="email" placeholder="email" />
+        Email: <input type="email" name="email" placeholder="email" required/>
         <br />
         Password:{" "}
-        <input type="password" name="password" placeholder="password" />
+        <input type="password" name="password" placeholder="password" required/>
         <br />
         <input type="submit" value="Login" />
       </form>

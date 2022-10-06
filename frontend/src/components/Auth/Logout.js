@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie"
 import { useUserContext } from "../../components/UserContext/UserContext";
 import { logout } from "../../helpers/users-api";
 
@@ -7,8 +6,10 @@ const Logout = () => {
   const signout = useUserContext().signout;
   const handleClick = async (e) => {
     e.preventDefault();
-    await logout();
-    signout();
+    const response = await logout();
+    if (response.data.success === true) {
+      signout();
+    }
   };
   return (
     <div>

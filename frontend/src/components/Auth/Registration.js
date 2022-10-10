@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
 
+
 const Registration = () => {
   const navigate = useNavigate();
   const formRef = useRef();

@@ -6,21 +6,17 @@ import { useNavigate } from "react-router-dom";
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(true)
 
-  const handleClick = () => {
-    setShowLogin(!showLogin)
-  }
-
   return (
     <div>
       <div>
         <h1>AuthPage</h1>
         { showLogin 
-          ? <>
-              <Login /> <br /> <p> Don't have an account? <span className="clickable-span" onClick={handleClick}>Register Here</span></p>
-            </>
-          : <>
-              <Registration /> <br /> <p> Already have an account? <span className="clickable-span" onClick={handleClick}>Login Here</span></p>
-            </>
+        ? <>
+            <Login /> <br /> <p> Don't have an account? <span className="clickable-span" onClick={() => setShowLogin(!showLogin)}>Register Here</span></p>
+          </>
+        : <>
+            <Registration /> <br /> <p> Already have an account? <span className="clickable-span" onClick={() => setShowLogin(!showLogin)}>Login Here</span></p>
+          </>
         }
       </div>
     </div>

@@ -3,7 +3,7 @@ import Cookies from "js-cookie"
 
 const BASE_URL = "http://localhost:3000/auth/";
 
-function headers() {
+function getHeaders() {
   return {
     headers: {
       "access-token": Cookies.get("_access_token"),
@@ -30,16 +30,26 @@ export function logout() {
   return sendRequest(`${BASE_URL}sign_out`, 'DELETE')
 }
 
-async function sendRequest(url, method = 'GET', payload = null) {
+export function resetPassword(password, headers) {
+  return sendRequest(`${BASE_URL}password`, 'PUT', password, headers)
+}
+
+export function resetRequest(userData) {
+  return sendRequest(`${BASE_URL}password`, 'POST', userData)
+}
+
+async function sendRequest(url, method = 'GET', payload = null, headers = null) {
   let response = null
   console.log('send request called')
   try {
     if (method === 'GET') {
-      response = await axios.get(url, headers())
+      response = await axios.get(url, getHeaders())
     } else if (method === 'POST') {
-      response = await axios.post(url, payload.user, { withCredentials: true })
+      response = await axios.post(url, payload, { withCredentials: true })
     } else if (method === 'DELETE') {
-      response = await axios.delete(url, headers())
+      response = await axios.delete(url, getHeaders())
+    } else if (method === 'PUT') {
+      response = await axios.put(url, payload, headers)
     }
   } catch (error) {
     return error.response

@@ -53,7 +53,7 @@ gem "devise"
 gem "jsonapi-serializer"
 gem 'devise_token_auth'
 gem "graphql"
-gem 'pry-rails'
+gem 'pry-byebug'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

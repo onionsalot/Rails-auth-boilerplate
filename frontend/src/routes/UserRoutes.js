@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/Navbar";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import { useUserContext } from "../components/UserContext/UserContext";
+import ResetPassword from "../components/Auth/ResetPassword";
 function UserRoutes() {
   const context = useUserContext();
   return (
@@ -17,6 +18,14 @@ function UserRoutes() {
           element={
             <ProtectedRoute isAllowed={!context.user}>
               <AuthPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/reset"
+          element={
+            <ProtectedRoute isAllowed={!context.user}>
+              <ResetPassword />
             </ProtectedRoute>
           }
         />

@@ -15,6 +15,7 @@ function getHeaders() {
 
 export function getCurrentUser() {
   if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
+  console.log('getCurrentUser called')
   return sendRequest(`${BASE_URL}sessions`)
 };
 
@@ -40,16 +41,16 @@ export function resetRequest(userData) {
 
 async function sendRequest(url, method = 'GET', payload = null, headers = null) {
   let response = null
-  console.log('send request called')
+  console.log('send request called',payload,headers)
   try {
     if (method === 'GET') {
-      response = await axios.get(url, getHeaders())
+      response = axios.get(url, getHeaders())
     } else if (method === 'POST') {
-      response = await axios.post(url, payload, { withCredentials: true })
+      response = axios.post(url, payload, { withCredentials: true })
     } else if (method === 'DELETE') {
-      response = await axios.delete(url, getHeaders())
+      response = axios.delete(url, getHeaders())
     } else if (method === 'PUT') {
-      response = await axios.put(url, payload, headers)
+      response = axios.put(url, payload, headers)
     }
   } catch (error) {
     return error.response

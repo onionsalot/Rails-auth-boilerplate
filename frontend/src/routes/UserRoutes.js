@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { useUserContext } from "../components/UserContext/UserContext";
 import ResetPassword from "../components/Auth/ResetPassword";
 function UserRoutes() {
-  const context = useUserContext();
+  const context = { user : null};
   return (
     <>
       <Navbar />

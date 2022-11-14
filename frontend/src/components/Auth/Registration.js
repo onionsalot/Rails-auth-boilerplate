@@ -2,33 +2,31 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
-
+import { useAuth } from "../../mutations/use-auth"
 
 const Registration = () => {
   const navigate = useNavigate();
   const formRef = useRef();
-  const signin = useUserContext().signin;
+  // const signin = useUserContext().signin;
   const [errors, setErrors] = useState([])
-
-  const handleRegister = async (userInfo) => {
-    const response = await signup(userInfo);
-    console.log('registration: =>', response)
-    if (response && response.status === 200) {
-      signin(response);
-      navigate("/app/dashboard");
-    } else if (response.data.errors.full_messages.length > 0) {
-      setErrors([...errors, ...response.data.errors.full_messages])
-    }
-  };
+  const { signupUserMutation } = useAuth()
+  // const handleRegister = async (userInfo) => {
+  //   const response = await signup(userInfo);
+  //   console.log('registration: =>', response)
+  //   if (response && response.status === 200) {
+  //     // signin(response);
+  //     navigate("/app/dashboard");
+  //   } else if (response.data.errors.full_messages.length > 0) {
+  //     setErrors([...errors, ...response.data.errors.full_messages])
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const userInfo = {
-      user: { email: data.email, password: data.password },
-    };
-    handleRegister(userInfo);
+    const userInfo = { email: data.email, password: data.password }
+    signupUserMutation.mutate(userInfo);
     e.target.reset();
   };
 

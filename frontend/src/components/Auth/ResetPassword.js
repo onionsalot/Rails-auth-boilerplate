@@ -1,6 +1,7 @@
 import { useRef, useState, useMemo, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../helpers/users-api";
+import { useAuth } from "../../mutations/use-auth"
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ const ResetPassword = () => {
   const [errors, setErrors] = useState([])
   const [success, setSuccess] = useState("")
   const [loading, setLoading] = useState(false)
+  const { resetPasswordMutation } = useAuth()
 
   const handleReset = async (userInfo, headers) => {
     try {
@@ -44,11 +46,11 @@ const ResetPassword = () => {
       }
     }
 
-    const userInfo = {
-      password: data.password, password_confirmation: data.confirmPassword
+    const payload = {
+      password: data.password, password_confirmation: data.confirmPassword, headers
     };
 
-    handleReset(userInfo, headers)
+    resetPasswordMutation.mutate(payload)
     e.target.reset()
   };
 

@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
 function AdminRoutes() {
-  const context = useUserContext();
+  const context = {};
   return (
     <Routes>
       <Route

@@ -46,7 +46,7 @@ async function sendRequest(url, method = 'GET', payload = null, headers = null) 
     if (method === 'GET') {
       response = axios.get(url, getHeaders())
     } else if (method === 'POST') {
-      response = axios.post(url, payload, { withCredentials: true })
+      response = axios.post(url, payload)
     } else if (method === 'DELETE') {
       response = axios.delete(url, getHeaders())
     } else if (method === 'PUT') {

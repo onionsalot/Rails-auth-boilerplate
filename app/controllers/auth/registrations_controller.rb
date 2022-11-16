@@ -1,19 +1,76 @@
 # frozen_string_literal: true
 
-class Auth::RegistrationsController < Devise::RegistrationsController
+class Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
+  wrap_parameters false
   respond_to :json
+
+  def create
+    build_resource
+
+    unless @resource.present?
+      raise DeviseTokenAuth::Errors::NoResourceDefinedError,
+            "#{self.class.name} #build_resource does not define @resource,"\
+            ' execution stopped.'
+    end
+
+    # give redirect value from params priority
+    @redirect_url = params.fetch(
+      :confirm_success_url,
+      DeviseTokenAuth.default_confirm_success_url
+    )
+
+    # success redirect url is required
+    if confirmable_enabled? && !@redirect_url
+      return render_create_error_missing_confirm_success_url
+    end
+
+    # if whitelist is set, validate redirect_url against whitelist
+    return render_create_error_redirect_url_not_allowed if blacklisted_redirect_url?(@redirect_url)
+
+    # override email confirmation, must be sent manually from ctrl
+    callback_name = defined?(ActiveRecord) && resource_class < ActiveRecord::Base ? :commit : :create
+    resource_class.set_callback(callback_name, :after, :send_on_create_confirmation_instructions)
+    resource_class.skip_callback(callback_name, :after, :send_on_create_confirmation_instructions)
+
+    if @resource.respond_to? :skip_confirmation_notification!
+      # Fix duplicate e-mails by disabling Devise confirmation e-mail
+      @resource.skip_confirmation_notification!
+    end
+
+    if @resource.save
+      yield @resource if block_given?
+
+      unless @resource.confirmed?
+        # user will require email authentication
+        @resource.send_confirmation_instructions({
+          client_config: params[:config_name],
+          redirect_url: @redirect_url
+        })
+      end
+
+      if active_for_authentication?
+        # email auth has been bypassed, authenticate user
+        @token = @resource.create_token
+        @resource.save!
+        update_auth_header
+      end
+    else
+      clean_up_passwords @resource
+    end
+    respond_with(@resource)
+  end
 
   private
 
   def respond_with(resource, _opts = {})
     if resource.persisted?
       render json: {
-        status: {code: 200, message: 'Signed up sucessfully.'},
+        message: 'Signed up sucessfully.',
         data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
       }
     else
       render json: {
-        status: {message: "User couldn't be created successfully. #{resource.errors.full_messages.to_sentence}"}
+        message: resource.errors.full_messages.to_sentence
       }, status: :unprocessable_entity
     end
   end

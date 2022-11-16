@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   get 'auth/passwords'
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'auth/confirmations',
-    passwords: 'auth/passwords'
+    passwords: 'auth/passwords',
+    registrations: 'auth/registrations'
   }
 
   namespace :auth do

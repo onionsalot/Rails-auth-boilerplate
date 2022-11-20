@@ -5,9 +5,9 @@ class Auth::SessionsController < ApplicationController
 
   def index
     if current_user && unconfirmed_allowed?
-      render json: { is_logged_in: true, data: current_user }
+      render json: { message: "Logged in.", data: current_user }, status: :ok
     else
-      render json: { is_logged_in: false, message: "Couldn't find an active session." }
+      render json: { message: "Couldn't find an active session.", data: nil }, status: :unauthorized
     end
   end
 
@@ -22,22 +22,13 @@ class Auth::SessionsController < ApplicationController
     return false
   end
 
-  def respond_with(resource, _opts = {})
-    render json: {
-      status: {code: 200, message: 'Logged in sucessfully.'},
-      data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-    }, status: :ok
-  end
-
   def respond_to_on_destroy
     if current_user
       render json: {
-        status: 200,
-        message: "logged out successfully"
+        message: "Logged out successfully"
       }, status: :ok
     else
       render json: {
-        status: 401,
         message: "Couldn't find an active session."
       }, status: :unauthorized
     end

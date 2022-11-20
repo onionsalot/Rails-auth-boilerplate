@@ -5,7 +5,7 @@ import { useUserContext } from "../../components/UserContext/UserContext";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import Cookies from "js-cookie"
-import { useAuth } from "../../mutations/use-auth"
+import { useAuth } from "../../queries/use-auth"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -45,7 +45,16 @@ const Login = () => {
       email: data.email,
       password: data.password
     };
-    signinUserMutation.mutate(userInfo)
+    signinUserMutation.mutate(
+      userInfo,
+      { 
+        onSuccess: (response) => {
+          console.log('onSuccess called for login')
+          // queryClient.invalidateQueries('user')
+          navigate("/app/dashboard")
+        }
+      }
+    );
     e.target.reset();
   };
   
@@ -104,7 +113,7 @@ const Login = () => {
         </>
       }
       {resetSuccess ? resetSuccess : ""}
-      {errors ? showErrors : ""}
+      {signinUserMutation.isError ? signinUserMutation.error.response?.data?.message : ""}
     </div>
   );
 };

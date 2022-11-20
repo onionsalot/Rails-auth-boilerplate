@@ -1,7 +1,7 @@
 import Cookies from "js-cookie"
 import { useUserContext } from "../../components/UserContext/UserContext";
 import { logout } from "../../helpers/users-api";
-import { useAuth } from "../../mutations/use-auth"
+import { useAuth } from "../../queries/use-auth"
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
@@ -27,7 +27,14 @@ const Logout = () => {
   // const signout = useUserContext().signout;
   const handleClick = async (e) => {
     e.preventDefault();
-    signoutUserMutation.mutate()
+    signoutUserMutation.mutate(
+      { 
+        onSuccess: (response) => {
+          console.log('onSuccess called for Logout')
+          navigate("/app/dashboard")
+        }
+      }
+    )
   }
 
   return (

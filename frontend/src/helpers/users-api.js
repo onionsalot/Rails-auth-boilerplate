@@ -15,7 +15,6 @@ function getHeaders() {
 
 export function getCurrentUser() {
   if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-  console.log('getCurrentUser called')
   return sendRequest(`${BASE_URL}sessions`)
 };
 

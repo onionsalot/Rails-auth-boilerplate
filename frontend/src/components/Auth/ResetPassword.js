@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../helpers/users-api";
-import { useAuth } from "../../mutations/use-auth"
+import { useAuth } from "../../queries/use-auth"
 
 const ResetPassword = () => {
   const navigate = useNavigate();

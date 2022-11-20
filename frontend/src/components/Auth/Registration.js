@@ -2,11 +2,16 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
-import { useAuth } from "../../mutations/use-auth"
+import { useAuth } from "../../queries/use-auth"
+import Cookies from "js-cookie"
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { Mutation } from "react-apollo";
 
 const Registration = () => {
   const navigate = useNavigate();
   const formRef = useRef();
+  const queryClient = useQueryClient()
+
   // const signin = useUserContext().signin;
   const [errors, setErrors] = useState([])
   const { signupUserMutation } = useAuth()
@@ -26,7 +31,16 @@ const Registration = () => {
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     const userInfo = { email: data.email, password: data.password, password_confirmation: data.password_confirmation }
-    signupUserMutation.mutate(userInfo);
+    signupUserMutation.mutate(
+      userInfo,
+      { 
+        onSuccess: (response) => {
+          console.log('onSuccess called for Registration')
+          // queryClient.invalidateQueries('user')
+          navigate("/app/dashboard")
+        }
+      }
+    );
     e.target.reset();
   };
 
@@ -53,7 +67,7 @@ const Registration = () => {
         <br />
         <input type="submit" value="Submit" />
       </form>
-      {errors ? showErrors : ""}
+      {signupUserMutation.isError ? signupUserMutation.error.response?.data?.message : ""}
     </div>
   );
 };

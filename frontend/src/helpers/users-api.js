@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../lib/axios";
 import Cookies from "js-cookie"
 
 const BASE_URL = "http://localhost:3000/auth/";
@@ -14,8 +14,8 @@ function getHeaders() {
 }
 
 export function getCurrentUser() {
-  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-  return sendRequest(`${BASE_URL}sessions`)
+  if (!Cookies.get("CSRF-TOKEN")) return
+  return sendRequest(`${BASE_URL}current_user/index`)
 };
 
 export function signup(userData) {
@@ -40,7 +40,7 @@ export function resetRequest(userData) {
 
 async function sendRequest(url, method = 'GET', payload = null, headers = null) {
   let response = null
-  console.log('send request called',payload,headers)
+  console.log('send request called',payload,getHeaders())
   try {
     if (method === 'GET') {
       response = axios.get(url, getHeaders())

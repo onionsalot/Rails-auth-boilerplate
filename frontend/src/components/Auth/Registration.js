@@ -30,7 +30,7 @@ const Registration = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const userInfo = { email: data.email, password: data.password, password_confirmation: data.password_confirmation }
+    const userInfo = { user: {email: data.email, password: data.password, password_confirmation: data.password_confirmation} }
     signupUserMutation.mutate(
       userInfo,
       { 

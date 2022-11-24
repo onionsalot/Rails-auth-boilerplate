@@ -1,14 +1,25 @@
 Rails.application.routes.draw do
-  get 'auth/passwords'
-  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-    confirmations: 'auth/confirmations',
-    passwords: 'auth/passwords',
-    registrations: 'auth/registrations'
-  }
-
   namespace :auth do
-    resources :sessions, only: %i[index]
+    get 'current_user/index'
   end
+  devise_for :users, at: 'auth', path: 'auth',
+  controllers: {
+    # confirmations: 'auth/confirmations',
+    # passwords: 'auth/passwords',
+    registrations: 'auth/registrations',
+    sessions: 'auth/sessions'
+  }
+  # devise_for :users
+  # get 'auth/passwords'
+  # mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+  #   confirmations: 'auth/confirmations',
+  #   passwords: 'auth/passwords',
+  #   registrations: 'auth/registrations'
+  # }
+
+  # namespace :auth do
+  #   resources :sessions, only: %i[index]
+  # end
 
   get '/index', to: 'home#index'
   # get 'current_user/index'

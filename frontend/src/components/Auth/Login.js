@@ -42,9 +42,11 @@ const Login = () => {
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     const userInfo = {
-      email: data.email,
-      password: data.password
-    };
+      user: {
+        email: data.email,
+        password: data.password
+      }
+    }
     signinUserMutation.mutate(
       userInfo,
       { 
@@ -62,7 +64,7 @@ const Login = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const userInfo = { email: data.email, redirect_url: 'http://localhost:3001/app/reset' }
+    const userInfo = { user: {email: data.email, redirect_url: 'http://localhost:3001/app/reset'} }
 
     // let response = {}
     // try {

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   end
   devise_for :users, at: 'auth', path: 'auth',
   controllers: {
-    # confirmations: 'auth/confirmations',
+    confirmations: 'auth/confirmations',
     # passwords: 'auth/passwords',
     registrations: 'auth/registrations',
     sessions: 'auth/sessions'
@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   # namespace :auth do
   #   resources :sessions, only: %i[index]
   # end
-
   get '/index', to: 'home#index'
   # get 'current_user/index'
   # devise_for :users, path: '', path_names: {

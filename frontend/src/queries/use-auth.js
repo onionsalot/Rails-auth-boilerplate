@@ -7,7 +7,8 @@ import {
   logout, 
   signup, 
   resetRequest, 
-  resetPassword 
+  resetPassword,
+  confirmation
 } from "../helpers/users-api";
 import { getCurrentUser } from "../helpers/users-api";
 
@@ -85,6 +86,16 @@ export const useAuth = () => {
     }
   })
 
+  const confirmationMutation = useMutation(confirmation, {
+    onSuccess: () => {
+      console.log('success')
+    },
+    onError: (e) => {
+      console.log('error:', e.response.data.errors)
+    }
+  })
+
+
   const getCurrentUserQuery = useQuery('user', getCurrentUser, {
     onSuccess: (response) => {
       console.log('getcurrentuser query called')
@@ -107,6 +118,7 @@ export const useAuth = () => {
     signoutUserMutation,
     requestPasswordResetMutation,
     resetPasswordMutation,
-    getCurrentUserQuery
+    getCurrentUserQuery,
+    confirmationMutation
   };
 };

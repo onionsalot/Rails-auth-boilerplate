@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import { useUserContext } from "../components/UserContext/UserContext";
 import ResetPassword from "../components/Auth/ResetPassword";
+import Confirmation from "../components/Auth/Confirmation";
 function UserRoutes() {
   const context = { user : null};
   return (
@@ -26,6 +27,14 @@ function UserRoutes() {
           element={
             <ProtectedRoute isAllowed={!context.user}>
               <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/app/confirmation"
+          element={
+            <ProtectedRoute isAllowed={!context.user}>
+              <Confirmation />
             </ProtectedRoute>
           }
         />

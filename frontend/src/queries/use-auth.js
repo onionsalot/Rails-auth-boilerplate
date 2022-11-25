@@ -22,11 +22,10 @@ export const useAuth = () => {
     {
       onSuccess: (response) => {
         console.log('test')
-        localStorage.setItem('isLoggedIn', true)
-        Cookies.set("_access_token", response.headers["access-token"])
-        Cookies.set("_client", response.headers["client"])
-        Cookies.set("_uid", response.headers["uid"])
-        queryClient.invalidateQueries('user') 
+        if (response.data?.message === "Logged in.") {
+          localStorage.setItem('isLoggedIn', true)
+          queryClient.invalidateQueries('user') 
+        }
       },
       onError: (e) => {
         console.log('error:', e.response.data.message)
@@ -40,9 +39,6 @@ export const useAuth = () => {
         console.log('onSuccess called for mutation')
         if (response.data?.message === "Signed up sucessfully."){
           localStorage.setItem('isLoggedIn', true)
-          Cookies.set("_access_token", response.headers["access-token"])
-          Cookies.set("_client", response.headers["client"])
-          Cookies.set("_uid", response.headers["uid"])
           queryClient.invalidateQueries('user') 
         }
       },
@@ -53,14 +49,13 @@ export const useAuth = () => {
   )
 
   const signoutUserMutation = useMutation(logout, {
-    onSuccess: () => {
-      console.log('success')
-      localStorage.removeItem('isLoggedIn');
-      Cookies.remove("_access_token")
-      Cookies.remove("_client")
-      Cookies.remove("_uid")
-      queryClient.invalidateQueries('user')
-      // navigate("/app/dashboard");
+    onSuccess: (response) => {
+      if (response.data?.message === "Logged out successfully."){
+        console.log('success')
+        localStorage.removeItem('isLoggedIn');
+        setUser(null)
+        queryClient.invalidateQueries('user')
+      }
     },
     onError: (e) => {
       console.log('error:', e.response.data.errors)
@@ -91,25 +86,18 @@ export const useAuth = () => {
   })
 
   const getCurrentUserQuery = useQuery('user', getCurrentUser, {
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       console.log('getcurrentuser query called')
-      if (!!data?.data.data) {
-        setUser(data?.data.data)
-      } else {
-        setUser(null);
-        localStorage.removeItem('isLoggedIn');
-        Cookies.remove("_access_token")
-        Cookies.remove("_client")
-        Cookies.remove("_uid")
+      if (response?.data?.message === "Session found.") {
+        setUser(response?.data?.data)
       }
     },
-    staleTime: 120000,
+    staleTime: 3600000,
+    retry: false,
+    refetchOnWindowFocus: false,
     onError: (e) => {
       setUser(null);
       localStorage.removeItem('isLoggedIn');
-      Cookies.remove("_access_token")
-      Cookies.remove("_client")
-      Cookies.remove("_uid")
     }
   })
 

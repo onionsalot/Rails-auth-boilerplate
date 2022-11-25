@@ -14,7 +14,9 @@ function getHeaders() {
 }
 
 export function getCurrentUser() {
-  if (!Cookies.get("CSRF-TOKEN")) return
+  // console.log(Cookies.get("remember_user_token"))
+  // if (!Cookies.get("remember_user_token")) return
+  if (localStorage.getItem('isLoggedIn') !== 'true') return null
   return sendRequest(`${BASE_URL}current_user/index`)
 };
 

@@ -24,15 +24,18 @@ class Auth::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
-    if current_user
+    if user_session.blank?
       render json: {
-        message: "Logged out successfully"
+        message: "Logged out successfully."
       }, status: :ok
     else
       render json: {
-        message: "Couldn't find an active session."
+        message: "An Error has occured."
       }, status: :unauthorized
     end
+    # render json: {
+    #     message: "Logged out successfully."
+    #   }, status: :ok
   end
   # GET /resource/sign_in
   # def new

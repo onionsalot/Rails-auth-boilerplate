@@ -44,7 +44,8 @@ const Login = () => {
     const userInfo = {
       user: {
         email: data.email,
-        password: data.password
+        password: data.password,
+        remember_me: true
       }
     }
     signinUserMutation.mutate(

@@ -10,7 +10,7 @@ import ProtectedRoutes from "../routes/ProtectedRoute";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useQueryClient, useQuery } from 'react-query'; 
 import { useStore } from "../stores/userStore";
-import Cookies from "js-cookie"
+import DefaultToaster from '../lib/toaster'
 import { useAuth } from "../queries/use-auth"
 
 function App() {
@@ -21,16 +21,19 @@ function App() {
   const { getCurrentUser } = useAuth()
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="*"
-          element={<UserRoutes />}
-        />
-        <Route path="/admin/*" element={<AdminRoutes />} />
-        {/* <Route path="/admin/dashboard" element={<AdminDashboard/>} /> */}
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route
+            path="*"
+            element={<UserRoutes />}
+          />
+          <Route path="/admin/*" element={<AdminRoutes />} />
+          {/* <Route path="/admin/dashboard" element={<AdminDashboard/>} /> */}
+        </Routes>
+      </Router>
+      <DefaultToaster/>
+    </>
   );
 }
 

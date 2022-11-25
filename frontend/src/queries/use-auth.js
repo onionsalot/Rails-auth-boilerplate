@@ -12,6 +12,7 @@ import {
   confirmation
 } from "../helpers/users-api";
 import { getCurrentUser } from "../helpers/users-api";
+import toast from 'react-hot-toast';
 
 export const useAuth = () => {
   // const [user, setUser] = useState(null);
@@ -23,9 +24,9 @@ export const useAuth = () => {
   const signinUserMutation = useMutation(login,
     {
       onSuccess: (response) => {
-        console.log('test')
         if (response.data?.message === "Logged in.") {
           localStorage.setItem('isLoggedIn', true)
+          toast.success(`Welcome back, ${response.data.data.full_name}`)
           queryClient.invalidateQueries('user') 
         }
       },
@@ -40,7 +41,7 @@ export const useAuth = () => {
       onSuccess: (response) => {
         console.log('onSuccess called for mutation')
         if (response.data?.message === "Signed up sucessfully."){
-          localStorage.setItem('isLoggedIn', true)
+          // localStorage.setItem('isLoggedIn', true)
           queryClient.invalidateQueries('user') 
         }
       },

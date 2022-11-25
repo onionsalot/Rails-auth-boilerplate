@@ -32,12 +32,16 @@ export function logout() {
   return sendRequest(`${BASE_URL}sign_out`, 'DELETE')
 }
 
-export function resetPassword(password, headers) {
-  return sendRequest(`${BASE_URL}password`, 'PUT', password, headers)
+export function resetPassword(payload) {
+  return sendRequest(`${BASE_URL}password`, 'PUT', payload)
 }
 
 export function resetRequest(userData) {
   return sendRequest(`${BASE_URL}password`, 'POST', userData)
+}
+
+export function checkResetToken(token) {
+  return sendRequest(`${BASE_URL}password/check_token`, 'POST', token)
 }
 
 export function confirmation(token) {

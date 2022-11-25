@@ -8,6 +8,7 @@ import {
   signup, 
   resetRequest, 
   resetPassword,
+  checkResetToken,
   confirmation
 } from "../helpers/users-api";
 import { getCurrentUser } from "../helpers/users-api";
@@ -72,11 +73,17 @@ export const useAuth = () => {
     }
   })
 
-  const resetPasswordMutation = useMutation( (payload) => {
-    // need to map out the payload as react-query mutations only take one argument
-    const { headers, ...passwords} = payload
-    resetPassword(passwords, headers)
-  }, {
+  const resetPasswordMutation = useMutation(resetPassword, {
+    onSuccess: () => {
+      console.log('success')
+
+    },
+    onError: (e) => {
+      console.log('error:', e.response.data.errors)
+    }
+  })
+
+  const checkResetTokenMutation = useMutation(checkResetToken, {
     onSuccess: () => {
       console.log('success')
 
@@ -119,6 +126,7 @@ export const useAuth = () => {
     requestPasswordResetMutation,
     resetPasswordMutation,
     getCurrentUserQuery,
-    confirmationMutation
+    confirmationMutation,
+    checkResetTokenMutation
   };
 };

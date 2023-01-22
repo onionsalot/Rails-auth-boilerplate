@@ -52,8 +52,6 @@ const Login = () => {
       userInfo,
       { 
         onSuccess: (response) => {
-          console.log('onSuccess called for login')
-          // queryClient.invalidateQueries('user')
           navigate("/app/dashboard")
         }
       }
@@ -116,7 +114,7 @@ const Login = () => {
         </>
       }
       {resetSuccess ? resetSuccess : ""}
-      {signinUserMutation.isError ? signinUserMutation.error.response?.data?.message : ""}
+      {signinUserMutation.isError ? signinUserMutation.error.response?.data : ""}
     </div>
   );
 };

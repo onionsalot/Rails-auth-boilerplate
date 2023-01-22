@@ -4,7 +4,6 @@ import { useAuth } from "../../queries/use-auth"
 
 const Confirmation = () => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState('')
   const { confirmationMutation } = useAuth()
 
   useEffect(() => {
@@ -17,24 +16,25 @@ const Confirmation = () => {
     confirmationMutation.mutate(
       payload,
       { 
-        onSuccess: (response) => {
-          console.log('onSuccess called for Confirmation')
-          // queryClient.invalidateQueries('user')
-          setMessage("Account has been confirmed. You will be re-directed in 5 seconds...")
-          setTimeout(() => {
-            navigate("/app/login")
-          }, 5000);
-        },
-        onError: () => {
-          setMessage("An error has occured. Please ensure the link has not expired...")
-        }
+        // onSuccess: (response) => {
+        //   console.log('onSuccess called for Confirmation')
+        //   // queryClient.invalidateQueries('user')
+        //   setMessage("Account has been confirmed. You will be re-directed in 5 seconds...")
+        //   setTimeout(() => {
+        //     navigate("/app/login")
+        //   }, 5000);
+        // },
+        // onError: () => {
+        //   setMessage("An error has occured. Please ensure the link has not expired...")
+        // },
+        onSettled: () => navigate("/app/login")
       }
     )
   },[])
 
   return (
     <>
-      {message}
+      <p>Checking confirmation token...</p>
     </>
   );
 };

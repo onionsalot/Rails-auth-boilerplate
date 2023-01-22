@@ -31,16 +31,7 @@ const Registration = () => {
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     const userInfo = { user: {email: data.email, password: data.password, password_confirmation: data.password_confirmation} }
-    signupUserMutation.mutate(
-      userInfo,
-      { 
-        onSuccess: (response) => {
-          console.log('onSuccess called for Registration')
-          // queryClient.invalidateQueries('user')
-          navigate("/app/dashboard")
-        }
-      }
-    );
+    signupUserMutation.mutate(userInfo);
     e.target.reset();
   };
 
@@ -67,6 +58,7 @@ const Registration = () => {
         <br />
         <input type="submit" value="Submit" />
       </form>
+      {signupUserMutation.isSuccess ? "Successfully Signed up! Please check and confirm your email to log in." : ""}
       {signupUserMutation.isError ? signupUserMutation.error.response?.data?.message : ""}
     </div>
   );

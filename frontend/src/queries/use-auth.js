@@ -29,9 +29,6 @@ export const useAuth = () => {
           toast.success(`Welcome back, ${response.data.data.full_name}`)
           queryClient.invalidateQueries('user') 
         }
-      },
-      onError: (e) => {
-        console.log('error:', e.response.data.message)
       }
     }
   )
@@ -41,12 +38,8 @@ export const useAuth = () => {
       onSuccess: (response) => {
         console.log('onSuccess called for mutation')
         if (response.data?.message === "Signed up sucessfully."){
-          // localStorage.setItem('isLoggedIn', true)
           queryClient.invalidateQueries('user') 
         }
-      },
-      onError: (e) => {
-        console.log('error:', e.response.data.message)
       }
     }
   )
@@ -96,10 +89,10 @@ export const useAuth = () => {
 
   const confirmationMutation = useMutation(confirmation, {
     onSuccess: () => {
-      console.log('success')
+      toast.success(`Email confirmed successfully! Please log in to continue.`)
     },
     onError: (e) => {
-      console.log('error:', e.response.data.errors)
+      toast.error(`An error has occured. Please ensure link has not expired.`)
     }
   })
 

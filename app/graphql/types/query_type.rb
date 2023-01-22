@@ -12,9 +12,14 @@ module Types
       description: "An example field added by the generator"
 
     field :users, [Types::UserType], null: false, description: "Show all users"
+    field :products, [Types::ProductType], null: false, description: "Show all products"
 
     def users
       User.all
+    end
+
+    def products
+      Product.all
     end
 
     def test_field

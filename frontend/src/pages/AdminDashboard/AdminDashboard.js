@@ -1,29 +1,23 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { useQuery } from 'react-apollo'
-import { gql } from 'apollo-boost'
+import { useGetUsers } from "../../queries/use-request"
+import { useStore } from "../../stores/userStore";
 
-function AdminDashboard() {
-  const GET_POLLS = gql`
-    {
-      users {
-        id
-        email
-      }
-    }
-  `;
+const AdminDashboard = () => {
+  const user = useStore((state) => state.user);
+  const { data, error, isLoading, isSuccess } = useGetUsers();
 
-  const { loading, error, data } = useQuery(GET_POLLS)
-  if (loading) return 'Loading...'
-  if (error) return `Error :  ${error.message}`
+  if (error) return <h1>Something went wrong!</h1>;
+  if (isLoading) return <h1>Loading...</h1>;
 
   return(
     <>
       <h1>Admin Dashboard</h1>
       {
-        data.users.map((user) => {
-          return <li>{user.email}</li>
-        })
+        user.admin && isSuccess && (
+          data.daya.data.users.map((user) => {
+            return <li>{user.email}</li>
+          })
+        )
       }
     </>
   )

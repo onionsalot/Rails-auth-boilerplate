@@ -5,7 +5,6 @@ import { useUserContext } from "../../components/UserContext/UserContext";
 import { useAuth } from "../../queries/use-auth"
 import Cookies from "js-cookie"
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { Mutation } from "react-apollo";
 
 const Registration = () => {
   const navigate = useNavigate();

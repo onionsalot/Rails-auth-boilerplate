@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useLocation } from "react";
+import { useRef, useState, useEffect, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../helpers/users-api";
 import { useAuth } from "../../queries/use-auth"
@@ -7,28 +7,15 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const formRef = useRef();
   const [errors, setErrors] = useState([])
-  const [success, setSuccess] = useState("")
+  const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
-  const { resetPasswordMutation } = useAuth()
+  const { resetPasswordMutation, checkResetTokenMutation } = useAuth()
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token')
 
-  const handleReset = async (userInfo, headers) => {
-    try {
-      const response = await resetPassword(userInfo, headers)
-      console.log(response)
-      if (response.status !== 200) {
-        setErrors([...response.data.errors])
-        setLoading(false)
-        return 
-      }
-      setSuccess("Successfully changed password. You will be re-directed in 5 seconds...")
-      setTimeout(() => {
-        navigate("/app/login")
-      }, 5000);
-    } catch (e) {
-      setLoading(false)
-      setErrors([...e.response.data.errors])
-    }
-  };
+  useEffect(() => {
+    checkResetTokenMutation.mutate({reset_password_token: token})
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,36 +23,37 @@ const ResetPassword = () => {
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     if (data.password !== data.confirmPassword) setErrors(["Passwords are not the same"])
-    const urlParams = new URLSearchParams(window.location.search);
-    const [uid, client, accessToken] = [urlParams.get('uid'), urlParams.get('client'), urlParams.get('access-token')]
-    const headers = { 
-      headers : {
-        'uid': uid,
-        'client': client,
-        'access-token': accessToken
-      }
-    }
 
     const payload = {
-      password: data.password, password_confirmation: data.confirmPassword, headers
+      user: {
+        password: data.password, 
+        password_confirmation: data.confirmPassword, 
+        reset_password_token: token
+      }
     };
 
-    resetPasswordMutation.mutate(payload)
+    resetPasswordMutation.mutate(
+      payload,
+      { 
+        onSuccess: (response) => {
+          setMessage("Password has been reset. You will be re-directed in 5 seconds...")
+          setTimeout(() => {
+            navigate("/app/login")
+          }, 5000);
+        },
+        onError: () => {
+          setMessage("An error has occured...")
+        }
+      }
+    )
     e.target.reset()
   };
 
-  const showErrors = errors.map((e, i) => {
-    return <p className="errors" key={i}>{e}</p>
-  })
 
   return (
     <>
-      { loading
-      ? <>
-        <p>Loading please wait...</p>
-        { success }
-        </>
-      : <div>
+      { checkResetTokenMutation.isSuccess
+      ? <div>
           <h3> Login </h3>
           <form ref={formRef} onSubmit={handleSubmit}>
             Password: <input type="password" name="password" placeholder="password" required/>
@@ -74,7 +62,11 @@ const ResetPassword = () => {
             <br />
             <input type="submit" value="Reset Password" />
           </form>
-          {errors ? showErrors : ""}
+          {errors}
+          {resetPasswordMutation.isError ? resetPasswordMutation.error : ""}
+        </div>
+      : <div>
+          <p>Invalid Token</p>
         </div>
       }
     </>

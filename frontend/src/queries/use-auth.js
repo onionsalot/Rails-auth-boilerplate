@@ -7,9 +7,12 @@ import {
   logout, 
   signup, 
   resetRequest, 
-  resetPassword 
+  resetPassword,
+  checkResetToken,
+  confirmation
 } from "../helpers/users-api";
 import { getCurrentUser } from "../helpers/users-api";
+import toast from 'react-hot-toast';
 
 export const useAuth = () => {
   // const [user, setUser] = useState(null);
@@ -21,15 +24,11 @@ export const useAuth = () => {
   const signinUserMutation = useMutation(login,
     {
       onSuccess: (response) => {
-        console.log('test')
-        localStorage.setItem('isLoggedIn', true)
-        Cookies.set("_access_token", response.headers["access-token"])
-        Cookies.set("_client", response.headers["client"])
-        Cookies.set("_uid", response.headers["uid"])
-        queryClient.invalidateQueries('user') 
-      },
-      onError: (e) => {
-        console.log('error:', e.response.data.message)
+        if (response.data?.message === "Logged in.") {
+          localStorage.setItem('isLoggedIn', true)
+          toast.success(`Welcome back, ${response.data.data.full_name}`)
+          queryClient.invalidateQueries('user') 
+        }
       }
     }
   )
@@ -39,28 +38,20 @@ export const useAuth = () => {
       onSuccess: (response) => {
         console.log('onSuccess called for mutation')
         if (response.data?.message === "Signed up sucessfully."){
-          localStorage.setItem('isLoggedIn', true)
-          Cookies.set("_access_token", response.headers["access-token"])
-          Cookies.set("_client", response.headers["client"])
-          Cookies.set("_uid", response.headers["uid"])
           queryClient.invalidateQueries('user') 
         }
-      },
-      onError: (e) => {
-        console.log('error:', e.response.data.message)
       }
     }
   )
 
   const signoutUserMutation = useMutation(logout, {
-    onSuccess: () => {
-      console.log('success')
-      localStorage.removeItem('isLoggedIn');
-      Cookies.remove("_access_token")
-      Cookies.remove("_client")
-      Cookies.remove("_uid")
-      queryClient.invalidateQueries('user')
-      // navigate("/app/dashboard");
+    onSuccess: (response) => {
+      if (response.data?.message === "Logged out successfully."){
+        console.log('success')
+        localStorage.removeItem('isLoggedIn');
+        setUser(null)
+        queryClient.invalidateQueries('user')
+      }
     },
     onError: (e) => {
       console.log('error:', e.response.data.errors)
@@ -76,11 +67,7 @@ export const useAuth = () => {
     }
   })
 
-  const resetPasswordMutation = useMutation( (payload) => {
-    // need to map out the payload as react-query mutations only take one argument
-    const { headers, ...passwords} = payload
-    resetPassword(passwords, headers)
-  }, {
+  const resetPasswordMutation = useMutation(resetPassword, {
     onSuccess: () => {
       console.log('success')
 
@@ -90,26 +77,39 @@ export const useAuth = () => {
     }
   })
 
+  const checkResetTokenMutation = useMutation(checkResetToken, {
+    onSuccess: () => {
+      console.log('success')
+
+    },
+    onError: (e) => {
+      console.log('error:', e.response.data.errors)
+    }
+  })
+
+  const confirmationMutation = useMutation(confirmation, {
+    onSuccess: () => {
+      toast.success(`Email confirmed successfully! Please log in to continue.`)
+    },
+    onError: (e) => {
+      toast.error(`An error has occured. Please ensure link has not expired.`)
+    }
+  })
+
+
   const getCurrentUserQuery = useQuery('user', getCurrentUser, {
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       console.log('getcurrentuser query called')
-      if (!!data?.data.data) {
-        setUser(data?.data.data)
-      } else {
-        setUser(null);
-        localStorage.removeItem('isLoggedIn');
-        Cookies.remove("_access_token")
-        Cookies.remove("_client")
-        Cookies.remove("_uid")
+      if (response?.data?.message === "Session found.") {
+        setUser(response?.data?.data)
       }
     },
-    staleTime: 120000,
+    staleTime: 3600000,
+    retry: false,
+    refetchOnWindowFocus: false,
     onError: (e) => {
       setUser(null);
       localStorage.removeItem('isLoggedIn');
-      Cookies.remove("_access_token")
-      Cookies.remove("_client")
-      Cookies.remove("_uid")
     }
   })
 
@@ -119,6 +119,8 @@ export const useAuth = () => {
     signoutUserMutation,
     requestPasswordResetMutation,
     resetPasswordMutation,
-    getCurrentUserQuery
+    getCurrentUserQuery,
+    confirmationMutation,
+    checkResetTokenMutation
   };
 };

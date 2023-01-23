@@ -51,7 +51,6 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem "devise"
 gem "jsonapi-serializer"
-gem 'devise_token_auth'
 gem "graphql"
 gem 'pry-byebug'
 

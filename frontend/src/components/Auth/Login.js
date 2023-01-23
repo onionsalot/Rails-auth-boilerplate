@@ -42,15 +42,16 @@ const Login = () => {
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
     const userInfo = {
-      email: data.email,
-      password: data.password
-    };
+      user: {
+        email: data.email,
+        password: data.password,
+        remember_me: true
+      }
+    }
     signinUserMutation.mutate(
       userInfo,
       { 
         onSuccess: (response) => {
-          console.log('onSuccess called for login')
-          // queryClient.invalidateQueries('user')
           navigate("/app/dashboard")
         }
       }
@@ -62,7 +63,7 @@ const Login = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const userInfo = { email: data.email, redirect_url: 'http://localhost:3001/app/reset' }
+    const userInfo = { user: { email: data.email } }
 
     // let response = {}
     // try {
@@ -113,7 +114,7 @@ const Login = () => {
         </>
       }
       {resetSuccess ? resetSuccess : ""}
-      {signinUserMutation.isError ? signinUserMutation.error.response?.data?.message : ""}
+      {signinUserMutation.isError ? signinUserMutation.error.response?.data : ""}
     </div>
   );
 };

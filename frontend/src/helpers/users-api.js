@@ -1,21 +1,23 @@
-import axios from "axios";
+import axios from "../lib/axios";
 import Cookies from "js-cookie"
 
 const BASE_URL = "http://localhost:3000/auth/";
 
-function getHeaders() {
-  return {
-    headers: {
-      "access-token": Cookies.get("_access_token"),
-      "client": Cookies.get("_client"),
-      "uid": Cookies.get("_uid")
-    }
-  }
-}
+// function getHeaders() {
+//   return {
+//     headers: {
+//       "access-token": Cookies.get("_access_token"),
+//       "client": Cookies.get("_client"),
+//       "uid": Cookies.get("_uid")
+//     }
+//   }
+// }
 
 export function getCurrentUser() {
-  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-  return sendRequest(`${BASE_URL}sessions`)
+  // console.log(Cookies.get("remember_user_token"))
+  // if (!Cookies.get("remember_user_token")) return
+  if (localStorage.getItem('isLoggedIn') !== 'true') return null
+  return sendRequest(`${BASE_URL}current_user/index`)
 };
 
 export function signup(userData) {
@@ -30,24 +32,32 @@ export function logout() {
   return sendRequest(`${BASE_URL}sign_out`, 'DELETE')
 }
 
-export function resetPassword(password, headers) {
-  return sendRequest(`${BASE_URL}password`, 'PUT', password, headers)
+export function resetPassword(payload) {
+  return sendRequest(`${BASE_URL}password`, 'PUT', payload)
 }
 
 export function resetRequest(userData) {
   return sendRequest(`${BASE_URL}password`, 'POST', userData)
 }
 
+export function checkResetToken(token) {
+  return sendRequest(`${BASE_URL}password/check_token`, 'POST', token)
+}
+
+export function confirmation(token) {
+  return sendRequest(`${BASE_URL}confirmation`, 'GET', null, token)
+}
+
 async function sendRequest(url, method = 'GET', payload = null, headers = null) {
   let response = null
-  console.log('send request called',payload,headers)
+  console.log('send request called',payload)
   try {
     if (method === 'GET') {
-      response = axios.get(url, getHeaders())
+      response = axios.get(url, headers)
     } else if (method === 'POST') {
       response = axios.post(url, payload)
     } else if (method === 'DELETE') {
-      response = axios.delete(url, getHeaders())
+      response = axios.delete(url)
     } else if (method === 'PUT') {
       response = axios.put(url, payload, headers)
     }

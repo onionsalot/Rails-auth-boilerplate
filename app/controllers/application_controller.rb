@@ -1,5 +1,15 @@
 class ApplicationController < ActionController::Base
-  include DeviseTokenAuth::Concerns::SetUserByToken
-  skip_before_action :verify_authenticity_token
-  helper_method :current_user, :user_signed_in?
+  protect_from_forgery with: :exception
+
+  after_action :set_csrf_cookie
+  before_action :authenticate_user!
+
+  private
+
+  def set_csrf_cookie
+    cookies["CSRF-TOKEN"] = {
+      value: form_authenticity_token,
+      secure: true
+    }
+  end
 end

@@ -5,7 +5,6 @@ import { useUserContext } from "../../components/UserContext/UserContext";
 import { useAuth } from "../../queries/use-auth"
 import Cookies from "js-cookie"
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { Mutation } from "react-apollo";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -30,17 +29,8 @@ const Registration = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const userInfo = { email: data.email, password: data.password, password_confirmation: data.password_confirmation }
-    signupUserMutation.mutate(
-      userInfo,
-      { 
-        onSuccess: (response) => {
-          console.log('onSuccess called for Registration')
-          // queryClient.invalidateQueries('user')
-          navigate("/app/dashboard")
-        }
-      }
-    );
+    const userInfo = { user: {email: data.email, password: data.password, password_confirmation: data.password_confirmation} }
+    signupUserMutation.mutate(userInfo);
     e.target.reset();
   };
 
@@ -67,6 +57,7 @@ const Registration = () => {
         <br />
         <input type="submit" value="Submit" />
       </form>
+      {signupUserMutation.isSuccess ? "Successfully Signed up! Please check and confirm your email to log in." : ""}
       {signupUserMutation.isError ? signupUserMutation.error.response?.data?.message : ""}
     </div>
   );

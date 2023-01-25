@@ -13,6 +13,10 @@ module Types
 
     field :users, [Types::UserType], null: false, description: "Show all users"
     field :products, [Types::ProductType], null: false, description: "Show all products"
+    field :product, Types::ProductType, null: false do
+      description "Finds a single product by ID"
+      argument :id, ID
+    end
 
     def users
       User.all
@@ -20,6 +24,10 @@ module Types
 
     def products
       Product.all
+    end
+
+    def product(id:)
+      Product.find(id)
     end
 
     def test_field

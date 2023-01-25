@@ -42,3 +42,26 @@ export function useGetUsers() {
     return getUserList;
   });
 }
+
+export function useGetProduct(productId) {
+  return useQuery(["get-product", productId], async () => {
+    const getProductList = axios({
+      url: API_URL,
+      method: 'POST',
+      data: {
+        query: `
+          query product($id: ID!) {
+            product(id: $id) {
+              id
+              name
+              description
+            }
+          }
+        `,
+        variables: { id: productId }
+      }
+    })
+    console.log('getProductList =>', getProductList)
+    return getProductList;
+  });
+}

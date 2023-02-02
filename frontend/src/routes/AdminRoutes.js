@@ -9,12 +9,12 @@ function AdminRoutes() {
   return (
     <Routes>
       <Route
-        path="dashboard"
-        element={
-          <ProtectedRoute isAllowed={!!context.user && context.user.admin}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute isAllowed={!!context.user && context.user.admin}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
       />
     </Routes>
   );

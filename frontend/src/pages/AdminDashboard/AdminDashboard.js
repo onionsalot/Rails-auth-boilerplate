@@ -14,11 +14,13 @@ const AdminDashboard = () => {
       <h1>Admin Dashboard</h1>
       {
         user.admin && isSuccess && (
-          data.daya.data.users.map((user) => {
-            return <li>{user.email}</li>
+          data.data.data.users.map((user) => {
+            return <li>{user.fullName}</li>
           })
         )
       }
+      <hr />
+      <h3>Mutation example</h3>
     </>
   )
 }

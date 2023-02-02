@@ -3,15 +3,16 @@ import React from "react";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import { useStore } from "../stores/userStore";
 
 function AdminRoutes() {
-  const context = {};
+  const user = useStore((state) => state.user);
   return (
     <Routes>
       <Route
-          path="/admin/dashboard"
+          path="dashboard"
           element={
-            <ProtectedRoute isAllowed={!!context.user && context.user.admin}>
+            <ProtectedRoute isAllowed={!!user && user.admin}>
               <AdminDashboard />
             </ProtectedRoute>
           }

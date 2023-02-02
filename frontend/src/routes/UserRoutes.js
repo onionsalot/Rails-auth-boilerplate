@@ -7,8 +7,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import { useUserContext } from "../components/UserContext/UserContext";
 import ResetPassword from "../components/Auth/ResetPassword";
 import Confirmation from "../components/Auth/Confirmation";
+import { useStore } from "../stores/userStore";
+
 function UserRoutes() {
-  const context = { user : null};
+  const user = useStore((state) => state.user);
   return (
     <>
       <Navbar />
@@ -17,7 +19,7 @@ function UserRoutes() {
         <Route
           path="/app/login"
           element={
-            <ProtectedRoute isAllowed={!context.user}>
+            <ProtectedRoute isAllowed={!user}>
               <AuthPage />
             </ProtectedRoute>
           }
@@ -25,7 +27,7 @@ function UserRoutes() {
         <Route
           path="/app/reset"
           element={
-            <ProtectedRoute isAllowed={!context.user}>
+            <ProtectedRoute isAllowed={!user}>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -33,7 +35,7 @@ function UserRoutes() {
         <Route
           path="/app/confirmation"
           element={
-            <ProtectedRoute isAllowed={!context.user}>
+            <ProtectedRoute isAllowed={!user}>
               <Confirmation />
             </ProtectedRoute>
           }

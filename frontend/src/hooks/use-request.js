@@ -1,4 +1,7 @@
 import { useQuery } from "react-query";
+import { getAllProductsQuery } from "../queries/getAllProductsQuery";
+import { getOneProductQuery } from "../queries/getOneProductQuery";
+import { getAllUsersQuery } from "../queries/getAllUsersQuery";
 import axios from "../lib/axios";
 
 const API_URL = `http://localhost:3000/graphql`;
@@ -6,48 +9,13 @@ const API_URL = `http://localhost:3000/graphql`;
 export const useRequest = (id = null) => {
   // Product Requests
 
-  const getAllProducts = useQuery("get-all-products", async () => {
-    const products = axios({
-      url: API_URL,
-      method: 'POST',
-      data: {
-        query: `
-           {
-            products {
-              id
-              name
-            }
-          }
-        `
-      }
-    })
-    return products
-  }, {
+  const getAllProducts = useQuery("get-all-products", getAllProductsQuery, {
     staleTime: 3600000,
     retry: false,
     refetchOnWindowFocus: false,
   })
 
-  const getOneProduct = useQuery(["get-one-product", id], async () => {
-    const product = axios({
-      url: API_URL,
-      method: 'POST',
-      data: {
-        query: `
-          query product($id: ID!) {
-            product(id: $id) {
-              id
-              name
-              description
-            }
-          }
-        `,
-        variables: { id: id }
-      }
-    })
-    console.log('getProduct =>', product)
-    return product;
-  }, {
+  const getOneProduct = useQuery(["get-one-product", id], () => getOneProductQuery(id), {
     staleTime: 3600000,
     retry: false,
     refetchOnWindowFocus: false,
@@ -55,23 +23,7 @@ export const useRequest = (id = null) => {
 
   // User Requests
 
-  const getAllUsers = useQuery("get-users", async () => {
-    const users = axios({
-      url: API_URL,
-      method: 'POST',
-      data: {
-        query: `
-          {
-            users {
-              id
-              fullName
-            }
-          }
-        `
-      }
-    })
-    return users;
-  }, {
+  const getAllUsers = useQuery("get-all-users", getAllUsersQuery, {
     staleTime: 3600000,
     retry: false,
     refetchOnWindowFocus: false,

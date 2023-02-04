@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../helpers/users-api";
 import { useUserContext } from "../../components/UserContext/UserContext";
-import { useAuth } from "../../queries/use-auth"
+import { useAuth } from "../../hooks/use-auth"
 import Cookies from "js-cookie"
 import { useQuery, useMutation, useQueryClient } from "react-query";
 

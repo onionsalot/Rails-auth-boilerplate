@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useLocation } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetPassword } from "../../helpers/users-api";
-import { useAuth } from "../../queries/use-auth"
+import { useAuth } from "../../hooks/use-auth"
 
 const ResetPassword = () => {
   const navigate = useNavigate();

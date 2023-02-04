@@ -1,7 +1,7 @@
 import Cookies from "js-cookie"
 import { useUserContext } from "../../components/UserContext/UserContext";
 import { logout } from "../../helpers/users-api";
-import { useAuth } from "../../queries/use-auth"
+import { useAuth } from "../../hooks/use-auth"
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";

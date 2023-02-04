@@ -11,7 +11,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { useQueryClient, useQuery } from 'react-query'; 
 import { useStore } from "../stores/userStore";
 import DefaultToaster from '../lib/toaster'
-import { useAuth } from "../queries/use-auth"
+import { useAuth } from "../hooks/use-auth"
 
 function App() {
   // const [user, setUser] = useState(null)

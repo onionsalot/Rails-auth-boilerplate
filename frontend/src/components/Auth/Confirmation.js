@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../queries/use-auth"
+import { useAuth } from "../../hooks/use-auth"
 
 const Confirmation = () => {
   const navigate = useNavigate();

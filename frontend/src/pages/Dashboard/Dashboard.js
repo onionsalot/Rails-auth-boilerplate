@@ -1,14 +1,14 @@
 import React from "react";
-import { useGetProduct, useGetProducts } from "../../queries/use-request"
 import { useStore } from "../../stores/userStore";
+import { useRequest } from "../../hooks/use-request"
 
 const Dashboard = () => {
   const user = useStore((state) => state.user);
-  const { data, error, isLoading, isSuccess } = useGetProduct(1);
-  const products = useGetProducts();
+  const { getAllProducts } = useRequest()
+  const { getOneProduct } = useRequest(1)
 
-  if (error || products.isError) return <h1>Something went wrong!</h1>;
-  if (isLoading || products.isLoading) return <h1>Loading...</h1>;
+  if (getAllProducts.error || getOneProduct.isError) return <h1>Something went wrong!</h1>;
+  if (getAllProducts.isLoading || getOneProduct.isLoading) return <h1>Loading...</h1>;
 
   return (
     <div>
@@ -18,13 +18,13 @@ const Dashboard = () => {
         <hr />
         <h3>One Product -</h3>
         {   
-          isSuccess ? <li>{data.data.data.product.id} | {data.data.data.product.name} | {data.data.data.product.description}</li> : ""
+          getOneProduct.isSuccess ? <li>{getOneProduct.data.data.data.product.id} | {getOneProduct.data.data.data.product.name} | {getOneProduct.data.data.data.product.description}</li> : ""
         }
         <hr />
         <h3>All Products -</h3>
         { 
-          products.isSuccess && (
-            products.data.data.data.products.map((product) => {
+          getAllProducts.isSuccess && (
+            getAllProducts.data.data.data.products.map((product) => {
               return <li>{product.name}</li>
             })
           )

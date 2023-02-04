@@ -5,7 +5,7 @@ import { useUserContext } from "../../components/UserContext/UserContext";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import Cookies from "js-cookie"
-import { useAuth } from "../../queries/use-auth"
+import { useAuth } from "../../hooks/use-auth"
 
 const Login = () => {
   const navigate = useNavigate();

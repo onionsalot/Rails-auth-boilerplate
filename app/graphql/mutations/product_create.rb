@@ -11,10 +11,11 @@ module Mutations
 
     def resolve(name: nil, price: nil)
       begin
-        product = Product.create!(
+        product = ProductService.create_product!(
           name: name,
           price: price
         )
+        binding.pry
 
         { product: product }
       rescue

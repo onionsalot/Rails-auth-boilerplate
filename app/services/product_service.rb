@@ -13,4 +13,8 @@ class ProductService
   def update_product!(name:, price:)
     @product.update!(name: name, price: price)
   end
+
+  def destroy_product!
+    @product.destroy!
+  end
 end

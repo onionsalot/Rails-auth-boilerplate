@@ -2,6 +2,8 @@ import React from "react";
 import { useRequest } from "../../hooks/use-request"
 import { useStore } from "../../stores/userStore";
 import AddProductForm from "../../components/AddProductForm/AddProductForm"
+import Product from "../../components/Product/Product";
+import EditProductForm from "../../components/EditProductForm/EditProductForm";
 
 const AdminDashboard = () => {
   const user = useStore((state) => state.user);
@@ -29,13 +31,14 @@ const AdminDashboard = () => {
 
       <hr />
       <h3>Edit Product -</h3>
+      <EditProductForm />
 
       <hr />
       <h3>All Products -</h3>
       {
         user.admin && getAllProducts.isSuccess && (
           getAllProducts.data.data.data.products.map((product) => {
-            return <li>ID: {product.id} || Name: {product.name}</li>
+            return <Product product={product}/>
           })
         )
       }

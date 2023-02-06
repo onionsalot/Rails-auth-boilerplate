@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 import { addProductMutation } from "../mutations/addProductMutation";
+import { deleteProductMutation } from "../mutations/deleteProductMutation"
 
 const API_URL = `http://localhost:3000/graphql`;
 
@@ -17,7 +18,17 @@ export const useMutate = () => {
       }
     });
 
+  const deleteProduct = useMutation(deleteProductMutation,
+    {
+      onSuccess: (response) => {
+        if (response.data?.data.productDelete.success) {
+          queryClient.invalidateQueries('get-all-products') 
+        }
+      }
+    })
+
   return {
-    addProduct
+    addProduct,
+    deleteProduct
   }
 }

@@ -7,10 +7,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import { useUserContext } from "../components/UserContext/UserContext";
 import ResetPassword from "../components/Auth/ResetPassword";
 import Confirmation from "../components/Auth/Confirmation";
-import { useStore } from "../stores/userStore";
+import { useBoundStore } from "../stores/useBoundStore";
 
 function UserRoutes() {
-  const user = useStore((state) => state.user);
+  const user = useBoundStore((state) => state.user);
   return (
     <>
       <Navbar />

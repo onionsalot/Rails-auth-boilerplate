@@ -3,10 +3,10 @@ import React from "react";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import { useStore } from "../stores/userStore";
+import { useBoundStore } from "../stores/useBoundStore";
 
 function AdminRoutes() {
-  const user = useStore((state) => state.user);
+  const user = useBoundStore((state) => state.user);
   return (
     <Routes>
       <Route

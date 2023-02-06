@@ -9,15 +9,10 @@ import { UserContextProvider } from "../components/UserContext/UserContext";
 import ProtectedRoutes from "../routes/ProtectedRoute";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useQueryClient, useQuery } from 'react-query'; 
-import { useStore } from "../stores/userStore";
 import DefaultToaster from '../lib/toaster'
 import { useAuth } from "../hooks/use-auth"
 
 function App() {
-  // const [user, setUser] = useState(null)
-  // const queryClient = useQueryClient()
-  const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser);
   const { getCurrentUser } = useAuth()
 
   return (

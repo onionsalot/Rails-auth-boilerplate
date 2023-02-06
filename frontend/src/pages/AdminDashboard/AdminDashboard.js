@@ -1,12 +1,12 @@
 import React from "react";
 import { useRequest } from "../../hooks/use-request"
-import { useStore } from "../../stores/userStore";
+import { useBoundStore } from "../../stores/useBoundStore";
 import AddProductForm from "../../components/AddProductForm/AddProductForm"
 import Product from "../../components/Product/Product";
 import EditProductForm from "../../components/EditProductForm/EditProductForm";
 
 const AdminDashboard = () => {
-  const user = useStore((state) => state.user);
+  const user = useBoundStore((state) => state.user);
   const { getAllUsers } = useRequest()
   const { getAllProducts } = useRequest()
 

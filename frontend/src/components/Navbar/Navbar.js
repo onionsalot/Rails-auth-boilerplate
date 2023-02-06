@@ -2,10 +2,10 @@ import { useContext } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import Logout from "../Auth/Logout";
-import { useStore } from "../../stores/userStore";
+import { useBoundStore } from '../../stores/useBoundStore'
 
 const NavBar = () => {
-  const user = useStore((state) => state.user);
+  const user = useBoundStore((state) => state.user);
   return (
     <div className="NavBar">
       <h2>Navbar</h2>

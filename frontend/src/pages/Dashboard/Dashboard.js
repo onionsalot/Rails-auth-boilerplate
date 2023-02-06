@@ -1,9 +1,9 @@
 import React from "react";
-import { useStore } from "../../stores/userStore";
+import { useBoundStore } from "../../stores/useBoundStore";
 import { useRequest } from "../../hooks/use-request"
 
 const Dashboard = () => {
-  const user = useStore((state) => state.user);
+  const user = useBoundStore((state) => state.user);
   const { getAllProducts } = useRequest()
   const { getOneProduct } = useRequest(1)
 

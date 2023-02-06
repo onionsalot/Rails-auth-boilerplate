@@ -1,4 +1,4 @@
-import { useStore } from "../stores/userStore";
+import { useBoundStore } from '../stores/useBoundStore'
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import Cookies from "js-cookie"
 // import { useNavigate } from "react-router-dom";
@@ -17,8 +17,8 @@ import toast from 'react-hot-toast';
 export const useAuth = () => {
   // const [user, setUser] = useState(null);
   const queryClient = useQueryClient()
-  const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser);
+  const user = useBoundStore((state) => state.user);
+  const setUser = useBoundStore((state) => state.setUser);
   // const navigate = useNavigate();
 
   const signinUserMutation = useMutation(login,

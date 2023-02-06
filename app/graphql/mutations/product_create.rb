@@ -8,6 +8,7 @@ module Mutations
     argument :price, Integer, required: true
 
     field :product, Types::ProductType, null: true
+    field :success, Boolean, null: false
 
     def resolve(name: nil, price: nil)
       begin
@@ -17,20 +18,10 @@ module Mutations
         )
         binding.pry
 
-        { product: product }
+        { success: true, product: product }
       rescue
         raise GraphQL::ExecutionError.new "Error creating product"
       end
     end
   end
 end
-
-# mutation {
-#   productCreate(input: { name: "lelelele", price: 88} ) {
-#     product { 
-#       id
-#     	name
-#     	price
-#     }
-#   }
-# }

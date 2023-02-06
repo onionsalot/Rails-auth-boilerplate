@@ -12,7 +12,6 @@ module Mutations
 
     def resolve(id:, name:, price:)
       begin
-        binding.pry
         service = ProductService.new(id: id)
         service.update_product!(name: name, price: price)
 

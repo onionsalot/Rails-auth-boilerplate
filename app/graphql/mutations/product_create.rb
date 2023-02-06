@@ -16,7 +16,6 @@ module Mutations
           name: name,
           price: price
         )
-        binding.pry
 
         { success: true, product: product }
       rescue

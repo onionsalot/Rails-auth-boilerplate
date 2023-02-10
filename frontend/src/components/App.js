@@ -14,9 +14,7 @@ import { useAuth } from "../hooks/use-auth"
 import { useBoundStore } from "../stores/useBoundStore";
 
 function App() {
-  const setUser = useBoundStore((state) => state.setUser)
   const { getCurrentUserQuery } = useAuth()
-  if (getCurrentUserQuery.isSuccess) setUser(getCurrentUserQuery?.data?.data?.data)
 
   return (
     <>

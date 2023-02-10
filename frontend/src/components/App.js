@@ -11,9 +11,12 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { useQueryClient, useQuery } from 'react-query'; 
 import DefaultToaster from '../lib/toaster'
 import { useAuth } from "../hooks/use-auth"
+import { useBoundStore } from "../stores/useBoundStore";
 
 function App() {
-  const { getCurrentUser } = useAuth()
+  const setUser = useBoundStore((state) => state.setUser)
+  const { getCurrentUserQuery } = useAuth()
+  if (getCurrentUserQuery.isSuccess) setUser(getCurrentUserQuery?.data?.data?.data)
 
   return (
     <>

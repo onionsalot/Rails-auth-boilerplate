@@ -1,12 +1,12 @@
 import { useMutate } from "../../hooks/use-mutate"
 import { useRef, useState } from "react";
 import Select from 'react-select'
-import { useBoundStore } from "../../stores/useBoundStore";
+import { useRequest } from "../../hooks/use-request";
 
 const EditProductForm = () => {
   const formRef = useRef();
   const { updateProduct } = useMutate()
-  const products = useBoundStore((state) => state.products);
+  const { getAllProducts } = useRequest()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ const EditProductForm = () => {
     console.log(input)
     e.target.reset();
   };
-  const options = products.map((product) => {
+  const options = getAllProducts.data.data.data.products.map((product) => {
     return { value: product.id, label: `ID: ${product.id} NAME: ${product.name}`}
   })
 

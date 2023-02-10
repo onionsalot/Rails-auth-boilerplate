@@ -96,7 +96,6 @@ export const useAuth = () => {
     }
   })
 
-
   const getCurrentUserQuery = useQuery('user', getCurrentUser, {
     onSuccess: (response) => {
       console.log('getcurrentuser query called')
@@ -106,7 +105,7 @@ export const useAuth = () => {
     },
     staleTime: 3600000,
     retry: false,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     onError: (e) => {
       setUser(null);
       localStorage.removeItem('isLoggedIn');

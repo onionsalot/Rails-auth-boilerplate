@@ -7,7 +7,7 @@ export const getAllProductsQuery = async () => {
     method: 'POST',
     data: {
       query: `
-         {
+        query AllProducts {
           products {
             id
             name

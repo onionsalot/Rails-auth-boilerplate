@@ -7,7 +7,7 @@ export const getOneProductQuery = async (id) => {
     method: 'POST',
     data: {
       query: `
-        query product($id: ID!) {
+        query oneProduct($id: ID!) {
           product(id: $id) {
             id
             name

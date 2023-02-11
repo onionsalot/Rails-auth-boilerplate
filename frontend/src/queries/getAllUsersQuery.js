@@ -7,7 +7,7 @@ export const getAllUsersQuery = async () => {
     method: 'POST',
     data: {
       query: `
-        {
+        query AllUsers {
           users {
             id
             fullName

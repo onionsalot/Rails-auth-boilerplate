@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useLocation } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/use-auth"
 
@@ -7,7 +7,6 @@ const ResetPassword = () => {
   const formRef = useRef()
   const [errors, setErrors] = useState([])
   const [message, setMessage] = useState("")
-  const [loading, setLoading] = useState(false)
   const { resetPasswordMutation, checkResetTokenMutation } = useAuth()
   const urlParams = new URLSearchParams(window.location.search)
   const token = urlParams.get('token')
@@ -18,7 +17,6 @@ const ResetPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
     const formData = new FormData(formRef.current)
     const data = Object.fromEntries(formData)
     if (data.password !== data.confirmPassword) setErrors(["Passwords are not the same"])
@@ -48,12 +46,14 @@ const ResetPassword = () => {
     e.target.reset()
   }
 
+  if (message) return(message)
+
 
   return (
     <>
       { checkResetTokenMutation.isSuccess
       ? <div>
-          <h3> Login </h3>
+          <h3> Reset Password </h3>
           <form ref={formRef} onSubmit={handleSubmit}>
             Password: <input type="password" name="password" placeholder="password" required/>
             <br />

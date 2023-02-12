@@ -1,5 +1,5 @@
 import { useBoundStore } from '../stores/useBoundStore'
-import { useQuery, useMutation, useQueryClient } from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 import { 
   login, 
   logout, 
@@ -9,12 +9,10 @@ import {
   checkResetToken,
   confirmation
 } from "../helpers/users-api"
-import { getCurrentUser } from "../helpers/users-api"
 import toast from 'react-hot-toast'
 
 export const useAuth = () => {
   const queryClient = useQueryClient()
-  const user = useBoundStore((state) => state.user)
   const setUser = useBoundStore((state) => state.setUser)
 
   const signinUserMutation = useMutation(login,
@@ -92,29 +90,12 @@ export const useAuth = () => {
     }
   })
 
-  const getCurrentUserQuery = useQuery('user', getCurrentUser, {
-    onSuccess: (response) => {
-      console.log('getcurrentuser query called')
-      if (response?.data?.message === "Session found.") {
-        setUser(response?.data?.data)
-      }
-    },
-    staleTime: 3600000,
-    retry: false,
-    refetchOnWindowFocus: true,
-    onError: (e) => {
-      setUser(null)
-      localStorage.removeItem('isLoggedIn')
-    }
-  })
-
   return {
     signinUserMutation,
     signupUserMutation,
     signoutUserMutation,
     requestPasswordResetMutation,
     resetPasswordMutation,
-    getCurrentUserQuery,
     confirmationMutation,
     checkResetTokenMutation
   }

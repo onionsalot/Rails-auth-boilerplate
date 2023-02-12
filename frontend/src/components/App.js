@@ -4,9 +4,10 @@ import AdminRoutes from "../routes/AdminRoutes"
 import UserRoutes from "../routes/UserRoutes"
 import DefaultToaster from '../lib/toaster'
 import { useAuth } from "../hooks/use-auth"
+import { useCurrentUser } from "../hooks/user-hooks"
 
 function App() {
-  const { getCurrentUserQuery } = useAuth()
+  useCurrentUser()
 
   return (
     <>

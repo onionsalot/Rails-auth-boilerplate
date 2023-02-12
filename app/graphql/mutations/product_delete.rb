@@ -4,18 +4,21 @@ module Mutations
   class ProductDelete < BaseMutation
     description "Deletes a product by ID"
 
-    field :success, Boolean, null: false
+    field :product, Types::ProductType, null: true
 
     argument :id, ID, required: true
 
     def resolve(id:)
       begin
-        service = ProductService.new(id: id)
+        raise "Not an Admin" unless context[:current_user].admin?
+
+        product = Product.find_by!(id: id)
+        service = ProductService.new(product: product)
         service.destroy_product!
 
-        { success: true }
-      rescue
-        raise GraphQL::ExecutionError.new "Error deleting product"
+        { product: product }
+      rescue StandardError => e
+        raise GraphQL::ExecutionError.new e || "Error deleting product"
       end
     end
   end

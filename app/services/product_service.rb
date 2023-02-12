@@ -6,8 +6,8 @@ class ProductService
     )
   end
 
-  def initialize(id:)
-    @product = Product.find(id)
+  def initialize(product:)
+    @product = product
   end
 
   def update_product!(name:, price:)

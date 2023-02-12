@@ -8,18 +8,19 @@ module Mutations
     argument :price, Integer, required: true
 
     field :product, Types::ProductType, null: true
-    field :success, Boolean, null: false
 
     def resolve(name: nil, price: nil)
       begin
+        raise "Not an Admin" unless context[:current_user].admin?
+
         product = ProductService.create_product!(
           name: name,
           price: price
         )
 
-        { success: true, product: product }
-      rescue
-        raise GraphQL::ExecutionError.new "Error creating product"
+        { product: product }
+      rescue StandardError => e
+        raise GraphQL::ExecutionError.new e || "Error deleting product"
       end
     end
   end

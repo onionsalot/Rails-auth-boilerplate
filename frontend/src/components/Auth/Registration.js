@@ -1,9 +1,8 @@
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { useAuth } from "../../hooks/use-auth"
 
 const Registration = () => {
   const formRef = useRef()
-  const [errors, setErrors] = useState([])
   const { signupUserMutation } = useAuth()
 
   const handleSubmit = async (e) => {
@@ -14,10 +13,6 @@ const Registration = () => {
     signupUserMutation.mutate(userInfo)
     e.target.reset()
   }
-
-  const showErrors = errors.map((e, i) => {
-    return <p className="errors" key={i}>{e}</p>
-  })
 
   return (
     <div>

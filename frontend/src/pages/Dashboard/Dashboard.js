@@ -1,11 +1,10 @@
 import React from "react"
 import { useBoundStore } from "../../stores/useBoundStore"
-import { useRequest } from "../../hooks/use-request"
+import { useProducts } from "../../hooks/product-hooks"
 
 const Dashboard = () => {
   const user = useBoundStore((state) => state.user)
-  const { getAllProducts } = useRequest()
-  const { error, isLoading, isSuccess, data } = getAllProducts
+  const { error, isLoading, isSuccess, data } = useProducts()
 
   if (error) return <h1>Something went wrong!</h1>
   if (isLoading) return <h1>Loading...</h1>

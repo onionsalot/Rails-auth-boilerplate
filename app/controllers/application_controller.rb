@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   after_action :set_csrf_cookie
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   private
 

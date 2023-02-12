@@ -5,7 +5,7 @@ module Queries
     argument :id, ID, required: true
 
     def resolve(id:)
-      return Product.find(id)
+      return Product.find_by!(id: id)
     rescue
       raise GraphQL::ExecutionError.new "Unable to fetch products"
     end

@@ -4,7 +4,7 @@ module Mutations
   class ProductUpdate < BaseMutation
     description "Updates a product by id"
 
-    field :success, Boolean, null: false
+    field :product, Types::ProductType, null: true
 
     argument :id, ID, required: true
     argument :name, String, required: true
@@ -12,12 +12,15 @@ module Mutations
 
     def resolve(id:, name:, price:)
       begin
-        service = ProductService.new(id: id)
+        raise "Not an Admin" unless context[:current_user].admin?
+
+        product = Product.find_by!(id: id)
+        service = ProductService.new(product: product)
         service.update_product!(name: name, price: price)
 
-        { success: true }
-      rescue
-        raise GraphQL::ExecutionError.new "Error updating product"
+        { product: product }
+      rescue StandardError => e
+        raise GraphQL::ExecutionError.new e || "Error deleting product"
       end
     end
   end

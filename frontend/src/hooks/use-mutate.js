@@ -6,12 +6,17 @@ import toast from 'react-hot-toast'
 export const useMutate = () => {
   const queryClient = useQueryClient()
   const checkResponse = (response) => {
+    console.log(response)
     if (response.data?.errors) {
-      toast.error(response.data?.errors[0].message)
+      sendError(response.data?.errors[0].message)
     } else {
       toast.success('Success!')
       queryClient.invalidateQueries('get-all-products') 
     }
+  }
+  const sendError = (e) => {
+    console.log(e)
+    toast.error(`An error has occured => ${e || 'unknown'}`)
   }
   // Product Mutations
 
@@ -19,6 +24,9 @@ export const useMutate = () => {
     {
       onSuccess: (response) => {
         checkResponse(response)
+      },
+      onError: (e) => {
+        sendError(e.response.data.errors[0].message)
       }
     })
 
@@ -26,6 +34,9 @@ export const useMutate = () => {
     {
       onSuccess: (response) => {
         checkResponse(response)
+      },
+      onError: (e) => {
+        sendError(e.response.data.errors[0].message)
       }
     })
 
@@ -33,6 +44,9 @@ export const useMutate = () => {
     {
       onSuccess: (response) => {
         checkResponse(response)
+      },
+      onError: (e) => {
+        sendError(e.response.data.errors[0].message)
       }
     })
 

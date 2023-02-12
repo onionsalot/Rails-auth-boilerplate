@@ -33,9 +33,6 @@ class Auth::SessionsController < Devise::SessionsController
         message: "An Error has occured."
       }, status: :unauthorized
     end
-    # render json: {
-    #     message: "Logged out successfully."
-    #   }, status: :ok
   end
   # GET /resource/sign_in
   # def new

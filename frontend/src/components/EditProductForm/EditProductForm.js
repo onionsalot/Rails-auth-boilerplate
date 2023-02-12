@@ -1,12 +1,12 @@
 import { useMutate } from "../../hooks/use-mutate"
 import { useRef } from "react"
 import Select from 'react-select'
-import { useRequest } from "../../hooks/use-request"
+import { useProducts } from "../../hooks/product-hooks"
 
 const EditProductForm = () => {
   const formRef = useRef()
   const { updateProduct } = useMutate()
-  const { getAllProducts } = useRequest()
+  const { error, isLoading, isSuccess, data } = useProducts()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -17,7 +17,8 @@ const EditProductForm = () => {
     console.log(input)
     e.target.reset()
   }
-  const options = getAllProducts.data.data.data.products.map((product) => {
+  console.log(data)
+  const options = data.data.data.products.map((product) => {
     return { value: product.id, label: `ID: ${product.id} NAME: ${product.name}`}
   })
 

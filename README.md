@@ -55,6 +55,15 @@ cd frontend
 yarn install
 ```
 
-### Working with GQL
-
-### Working with emails
+### Starting the server
+Backend server
+```shell
+rails s
+# served at localhost:3000
+```
+Frontend server
+```shell
+cd frontend
+nvm start
+# served at localhost:3001
+```

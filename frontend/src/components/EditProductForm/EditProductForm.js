@@ -14,10 +14,8 @@ const EditProductForm = () => {
     const data = Object.fromEntries(formData)
     const input = { id: data.id, name: data.name, price: parseFloat(data.price)}
     updateProduct.mutate(input)
-    console.log(input)
     e.target.reset()
   }
-  console.log(data)
   const options = data.data.data.products.map((product) => {
     return { value: product.id, label: `ID: ${product.id} NAME: ${product.name}`}
   })

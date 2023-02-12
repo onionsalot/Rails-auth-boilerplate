@@ -30,7 +30,6 @@ export const useAuth = () => {
   const signupUserMutation = useMutation(signup,
     {
       onSuccess: (response) => {
-        console.log('onSuccess called for mutation')
         if (response.data?.message === "Signed up sucessfully."){
           queryClient.invalidateQueries('user') 
         }
@@ -41,7 +40,6 @@ export const useAuth = () => {
   const signoutUserMutation = useMutation(logout, {
     onSuccess: (response) => {
       if (response.data?.message === "Logged out successfully."){
-        console.log('success')
         localStorage.removeItem('isLoggedIn')
         setUser(null)
         queryClient.invalidateQueries('user')

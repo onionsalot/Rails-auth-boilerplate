@@ -6,10 +6,9 @@ import { useBoundStore } from '../stores/useBoundStore'
 
 export const useCurrentUser = () => {
   const setUser = useBoundStore((state) => state.setUser)
-  
+
   return useQuery('user', getCurrentUser, {
     onSuccess: (response) => {
-      console.log('getcurrentuser query called')
       if (response?.data?.message === "Session found.") {
         setUser(response?.data?.data)
       }

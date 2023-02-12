@@ -33,7 +33,6 @@ const UserContextProvider = ({ children }) => {
     if (!isLoggedIn) { return setLoading(false) }
     const fetchUser = async () => {
       const response = await getCurrentUser()
-      console.log('fetchedUser =>', response)
       if (response && response.data.is_logged_in) {
         setUser(response.data.data);
       } else {

@@ -6,7 +6,6 @@ import toast from 'react-hot-toast'
 export const useMutate = () => {
   const queryClient = useQueryClient()
   const checkResponse = (response) => {
-    console.log(response)
     if (response.data?.errors) {
       sendError(response.data?.errors[0].message)
     } else {
@@ -15,7 +14,6 @@ export const useMutate = () => {
     }
   }
   const sendError = (e) => {
-    console.log(e)
     toast.error(`An error has occured => ${e || 'unknown'}`)
   }
   // Product Mutations

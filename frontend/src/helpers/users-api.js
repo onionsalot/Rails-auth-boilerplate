@@ -37,7 +37,6 @@ export function confirmation(token) {
 
 async function sendRequest(url, method = 'GET', payload = null, headers = null) {
   let response = null
-  console.log('send request called',payload)
   try {
     if (method === 'GET') {
       response = axios.get(url, headers)
@@ -51,6 +50,5 @@ async function sendRequest(url, method = 'GET', payload = null, headers = null) 
   } catch (error) {
     return error.response
   }
-  console.log('userapi response = ', response)
   return response
 }

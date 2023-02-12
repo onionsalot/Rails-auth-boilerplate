@@ -7,10 +7,8 @@ const Confirmation = () => {
   const { confirmationMutation } = useAuth()
 
   useEffect(() => {
-    console.log('hello')
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
-    console.log('token=',token)
     const payload = { params: { confirmation_token: token } }
 
     confirmationMutation.mutate(

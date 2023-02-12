@@ -8,9 +8,9 @@
 
 puts "Seeding..."
 
-User.create(full_name: 'Bob', email: 'bob@gmail.com')
-User.create(full_name: 'Stacey', email: 'Stacey@gmail.com')
-User.create(full_name: 'Onionz', email: 'Onionz@gmail.com')
+User.create(full_name: 'Bob', email: 'bob@gmail.com', password: 'somepass')
+User.create(full_name: 'Stacey', email: 'Stacey@gmail.com', password: 'somepass')
+User.create(full_name: 'Onionz', email: 'Onionz@gmail.com', password: 'somepass')
 
 Product.create(name: 'scissors', price: 55, description: 'A pair of scissors')
 Product.create(name: 'fork', price: 55, description: 'An average fork')

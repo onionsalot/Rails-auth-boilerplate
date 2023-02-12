@@ -20,7 +20,7 @@ export const useAuth = () => {
       onSuccess: (response) => {
         if (response.data?.message === "Logged in.") {
           localStorage.setItem('isLoggedIn', true)
-          toast.success(`Welcome back, ${response.data.data.full_name}`)
+          toast.success(`Welcome back, ${response.data.data.email}`)
           queryClient.invalidateQueries('user') 
         }
       }
@@ -48,38 +48,29 @@ export const useAuth = () => {
       }
     },
     onError: (e) => {
-      console.log('error:', e.response.data.errors)
+      toast.error(`An error has occured`)
     }
   })
 
   const requestPasswordResetMutation = useMutation(resetRequest, {
     onSuccess: () => {
-      console.log('success')
+      toast.success(`Request sent!`)
     },
     onError: (e) => {
-      console.log('error:', e.response.data.errors)
+      toast.error(`An error has occured`)
     }
   })
 
   const resetPasswordMutation = useMutation(resetPassword, {
     onSuccess: () => {
-      console.log('success')
-
+      toast.success(`Success!`)
     },
     onError: (e) => {
-      console.log('error:', e.response.data.errors)
+      toast.error(`An error has occured`)
     }
   })
 
-  const checkResetTokenMutation = useMutation(checkResetToken, {
-    onSuccess: () => {
-      console.log('success')
-
-    },
-    onError: (e) => {
-      console.log('error:', e.response.data.errors)
-    }
-  })
+  const checkResetTokenMutation = useMutation(checkResetToken)
 
   const confirmationMutation = useMutation(confirmation, {
     onSuccess: () => {

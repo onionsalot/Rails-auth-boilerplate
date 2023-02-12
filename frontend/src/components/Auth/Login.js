@@ -37,6 +37,7 @@ const Login = () => {
     const userInfo = { user: { email: data.email } }
 
     requestPasswordResetMutation.mutate(userInfo)
+    e.target.reset()
   }
 
   return (

@@ -1,16 +1,15 @@
-import { useRef, useState, useEffect, useLocation } from "react";
-import { useNavigate } from "react-router-dom";
-import { resetPassword } from "../../helpers/users-api";
+import { useRef, useState, useEffect, useLocation } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/use-auth"
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
-  const formRef = useRef();
+  const navigate = useNavigate()
+  const formRef = useRef()
   const [errors, setErrors] = useState([])
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const { resetPasswordMutation, checkResetTokenMutation } = useAuth()
-  const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search)
   const token = urlParams.get('token')
 
   useEffect(() => {
@@ -18,10 +17,10 @@ const ResetPassword = () => {
   }, [])
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     setLoading(true)
-    const formData = new FormData(formRef.current);
-    const data = Object.fromEntries(formData);
+    const formData = new FormData(formRef.current)
+    const data = Object.fromEntries(formData)
     if (data.password !== data.confirmPassword) setErrors(["Passwords are not the same"])
 
     const payload = {
@@ -30,7 +29,7 @@ const ResetPassword = () => {
         password_confirmation: data.confirmPassword, 
         reset_password_token: token
       }
-    };
+    }
 
     resetPasswordMutation.mutate(
       payload,
@@ -39,7 +38,7 @@ const ResetPassword = () => {
           setMessage("Password has been reset. You will be re-directed in 5 seconds...")
           setTimeout(() => {
             navigate("/app/login")
-          }, 5000);
+          }, 5000)
         },
         onError: () => {
           setMessage("An error has occured...")
@@ -47,7 +46,7 @@ const ResetPassword = () => {
       }
     )
     e.target.reset()
-  };
+  }
 
 
   return (
@@ -70,6 +69,6 @@ const ResetPassword = () => {
         </div>
       }
     </>
-  );
-};
-export default ResetPassword;
+  )
+}
+export default ResetPassword

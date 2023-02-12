@@ -1,17 +1,17 @@
-import React from "react";
+import React from "react"
 import { useRequest } from "../../hooks/use-request"
-import { useBoundStore } from "../../stores/useBoundStore";
+import { useBoundStore } from "../../stores/useBoundStore"
 import AddProductForm from "../../components/AddProductForm/AddProductForm"
-import Product from "../../components/Product/Product";
-import EditProductForm from "../../components/EditProductForm/EditProductForm";
+import Product from "../../components/Product/Product"
+import EditProductForm from "../../components/EditProductForm/EditProductForm"
 
 const AdminDashboard = () => {
-  const user = useBoundStore((state) => state.user);
+  const user = useBoundStore((state) => state.user)
   const { getAllUsers } = useRequest()
   const { getAllProducts } = useRequest()
 
-  if (getAllUsers.error || getAllProducts.isError) return <h1>Something went wrong!</h1>;
-  if (getAllUsers.isLoading || getAllProducts.isError) return <h1>Loading...</h1>;
+  if (getAllUsers.error || getAllProducts.isError) return <h1>Something went wrong!</h1>
+  if (getAllUsers.isLoading || getAllProducts.isError) return <h1>Loading...</h1>
 
   return(
     <>
@@ -46,4 +46,4 @@ const AdminDashboard = () => {
   )
 }
 
-export default AdminDashboard;
+export default AdminDashboard

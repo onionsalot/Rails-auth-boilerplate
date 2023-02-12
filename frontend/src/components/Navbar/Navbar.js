@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import "./Navbar.css";
-import { Link } from "react-router-dom";
-import Logout from "../Auth/Logout";
+import "./Navbar.css"
+import { Link } from "react-router-dom"
+import Logout from "../Auth/Logout"
 import { useBoundStore } from '../../stores/useBoundStore'
 
 const NavBar = () => {
-  const user = useBoundStore((state) => state.user);
+  const user = useBoundStore((state) => state.user)
   return (
     <div className="NavBar">
       <h2>Navbar</h2>
@@ -23,6 +22,6 @@ const NavBar = () => {
         <Link to="/app/login">Auth Page</Link>
       )}
     </div>
-  );
-};
-export default NavBar;
+  )
+}
+export default NavBar

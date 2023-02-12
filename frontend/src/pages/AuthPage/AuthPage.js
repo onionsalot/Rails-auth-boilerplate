@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import Registration from "../../components/Auth/Registration";
-import Login from "../../components/Auth/Login";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react"
+import Registration from "../../components/Auth/Registration"
+import Login from "../../components/Auth/Login"
 const AuthPage = () => {
   const [showLogin, setShowLogin] = useState(true)
 
@@ -20,7 +18,7 @@ const AuthPage = () => {
         }
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AuthPage;
+export default AuthPage

@@ -1,38 +1,19 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { signup } from "../../helpers/users-api";
-import { useUserContext } from "../../components/UserContext/UserContext";
+import { useRef, useState } from "react"
 import { useAuth } from "../../hooks/use-auth"
-import Cookies from "js-cookie"
-import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const Registration = () => {
-  const navigate = useNavigate();
-  const formRef = useRef();
-  const queryClient = useQueryClient()
-
-  // const signin = useUserContext().signin;
+  const formRef = useRef()
   const [errors, setErrors] = useState([])
   const { signupUserMutation } = useAuth()
-  // const handleRegister = async (userInfo) => {
-  //   const response = await signup(userInfo);
-  //   console.log('registration: =>', response)
-  //   if (response && response.status === 200) {
-  //     // signin(response);
-  //     navigate("/app/dashboard");
-  //   } else if (response.data.errors.full_messages.length > 0) {
-  //     setErrors([...errors, ...response.data.errors.full_messages])
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(formRef.current);
-    const data = Object.fromEntries(formData);
+    e.preventDefault()
+    const formData = new FormData(formRef.current)
+    const data = Object.fromEntries(formData)
     const userInfo = { user: {email: data.email, password: data.password, password_confirmation: data.password_confirmation} }
-    signupUserMutation.mutate(userInfo);
-    e.target.reset();
-  };
+    signupUserMutation.mutate(userInfo)
+    e.target.reset()
+  }
 
   const showErrors = errors.map((e, i) => {
     return <p className="errors" key={i}>{e}</p>
@@ -60,6 +41,6 @@ const Registration = () => {
       {signupUserMutation.isSuccess ? "Successfully Signed up! Please check and confirm your email to log in." : ""}
       {signupUserMutation.isError ? signupUserMutation.error.response?.data?.message : ""}
     </div>
-  );
-};
-export default Registration;
+  )
+}
+export default Registration

@@ -1,16 +1,15 @@
-import React from "react";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import AuthPage from "../pages/AuthPage/AuthPage";
-import Navbar from "../components/Navbar/Navbar";
-import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
-import { useUserContext } from "../components/UserContext/UserContext";
-import ResetPassword from "../components/Auth/ResetPassword";
-import Confirmation from "../components/Auth/Confirmation";
-import { useBoundStore } from "../stores/useBoundStore";
+import React from "react"
+import Dashboard from "../pages/Dashboard/Dashboard"
+import AuthPage from "../pages/AuthPage/AuthPage"
+import Navbar from "../components/Navbar/Navbar"
+import { Routes, Route } from "react-router-dom"
+import ProtectedRoute from "./ProtectedRoute"
+import ResetPassword from "../components/Auth/ResetPassword"
+import Confirmation from "../components/Auth/Confirmation"
+import { useBoundStore } from "../stores/useBoundStore"
 
 function UserRoutes() {
-  const user = useBoundStore((state) => state.user);
+  const user = useBoundStore((state) => state.user)
   return (
     <>
       <Navbar />
@@ -42,7 +41,7 @@ function UserRoutes() {
         />
       </Routes>
     </>
-  );
+  )
 }
 
-export default UserRoutes;
+export default UserRoutes

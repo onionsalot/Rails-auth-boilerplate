@@ -20,7 +20,7 @@ function DefaultToaster() {
         },
       }}
     />
-  );
+  )
 }
 
-export default DefaultToaster;
+export default DefaultToaster

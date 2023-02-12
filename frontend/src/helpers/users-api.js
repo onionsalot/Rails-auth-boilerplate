@@ -1,24 +1,11 @@
-import axios from "../lib/axios";
-import Cookies from "js-cookie"
+import axios from "../lib/axios"
 
-const BASE_URL = "http://localhost:3000/auth/";
-
-// function getHeaders() {
-//   return {
-//     headers: {
-//       "access-token": Cookies.get("_access_token"),
-//       "client": Cookies.get("_client"),
-//       "uid": Cookies.get("_uid")
-//     }
-//   }
-// }
+const BASE_URL = "http://localhost:3000/auth/"
 
 export function getCurrentUser() {
-  // console.log(Cookies.get("remember_user_token"))
-  // if (!Cookies.get("remember_user_token")) return
   if (localStorage.getItem('isLoggedIn') !== 'true') return null
   return sendRequest(`${BASE_URL}current_user/index`)
-};
+}
 
 export function signup(userData) {
   return sendRequest(`${BASE_URL}`, 'POST', userData)

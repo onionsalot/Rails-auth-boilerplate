@@ -1,5 +1,5 @@
-import Login from '../Auth/Login';
-import Registration from '../Auth/Registration';
+import Login from '../Auth/Login'
+import Registration from '../Auth/Registration'
 
 function Home({ user, setUser }) {
   return (

@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import { useMutate } from "../../hooks/use-mutate"
 
 const Product = ({ product }) => {
@@ -15,4 +14,4 @@ const Product = ({ product }) => {
     </>
   )
 }
-export default Product;
+export default Product

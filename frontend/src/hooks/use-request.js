@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "react-query"
 import { GET_ALL_PRODUCTS, GET_ONE_PRODUCT, GET_ALL_USERS } from "../graphql/queries"
 import { gqlHelper } from "../helpers/gql-helper"
 

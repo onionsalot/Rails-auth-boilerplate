@@ -1,7 +1,5 @@
 import { useBoundStore } from '../stores/useBoundStore'
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import Cookies from "js-cookie"
-// import { useNavigate } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "react-query"
 import { 
   login, 
   logout, 
@@ -10,16 +8,14 @@ import {
   resetPassword,
   checkResetToken,
   confirmation
-} from "../helpers/users-api";
-import { getCurrentUser } from "../helpers/users-api";
-import toast from 'react-hot-toast';
+} from "../helpers/users-api"
+import { getCurrentUser } from "../helpers/users-api"
+import toast from 'react-hot-toast'
 
 export const useAuth = () => {
-  // const [user, setUser] = useState(null);
   const queryClient = useQueryClient()
-  const user = useBoundStore((state) => state.user);
-  const setUser = useBoundStore((state) => state.setUser);
-  // const navigate = useNavigate();
+  const user = useBoundStore((state) => state.user)
+  const setUser = useBoundStore((state) => state.setUser)
 
   const signinUserMutation = useMutation(login,
     {
@@ -48,7 +44,7 @@ export const useAuth = () => {
     onSuccess: (response) => {
       if (response.data?.message === "Logged out successfully."){
         console.log('success')
-        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('isLoggedIn')
         setUser(null)
         queryClient.invalidateQueries('user')
       }
@@ -107,8 +103,8 @@ export const useAuth = () => {
     retry: false,
     refetchOnWindowFocus: true,
     onError: (e) => {
-      setUser(null);
-      localStorage.removeItem('isLoggedIn');
+      setUser(null)
+      localStorage.removeItem('isLoggedIn')
     }
   })
 
@@ -121,5 +117,5 @@ export const useAuth = () => {
     getCurrentUserQuery,
     confirmationMutation,
     checkResetTokenMutation
-  };
-};
+  }
+}

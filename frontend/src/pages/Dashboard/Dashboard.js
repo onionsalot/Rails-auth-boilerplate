@@ -1,14 +1,14 @@
-import React from "react";
-import { useBoundStore } from "../../stores/useBoundStore";
+import React from "react"
+import { useBoundStore } from "../../stores/useBoundStore"
 import { useRequest } from "../../hooks/use-request"
 
 const Dashboard = () => {
-  const user = useBoundStore((state) => state.user);
+  const user = useBoundStore((state) => state.user)
   const { getAllProducts } = useRequest()
   const { error, isLoading, isSuccess, data } = getAllProducts
 
-  if (error) return <h1>Something went wrong!</h1>;
-  if (isLoading) return <h1>Loading...</h1>;
+  if (error) return <h1>Something went wrong!</h1>
+  if (isLoading) return <h1>Loading...</h1>
 
   return (
     <div>
@@ -26,7 +26,7 @@ const Dashboard = () => {
         }
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

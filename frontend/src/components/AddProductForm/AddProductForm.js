@@ -1,18 +1,18 @@
 import { useMutate } from "../../hooks/use-mutate"
-import { useRef, useState } from "react";
+import { useRef } from "react"
 
 const AddProductForm = () => {
-  const formRef = useRef();
+  const formRef = useRef()
   const { addProduct } = useMutate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(formRef.current);
-    const data = Object.fromEntries(formData);
+    e.preventDefault()
+    const formData = new FormData(formRef.current)
+    const data = Object.fromEntries(formData)
     const input = { name: data.name, price: parseFloat(data.price)}
     addProduct.mutate(input)
-    e.target.reset();
-  };
+    e.target.reset()
+  }
 
   return (
     <>
@@ -24,4 +24,4 @@ const AddProductForm = () => {
     </>
   )
 }
-export default AddProductForm;
+export default AddProductForm

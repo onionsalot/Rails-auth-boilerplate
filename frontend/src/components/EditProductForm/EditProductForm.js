@@ -12,7 +12,7 @@ const EditProductForm = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const input = { id: data.id, name: data.name, price: data.price}
+    const input = { id: data.id, name: data.name, price: parseFloat(data.price)}
     updateProduct.mutate(input)
     console.log(input)
     e.target.reset();

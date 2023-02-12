@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
-import { addProductMutation } from "../mutations/addProductMutation";
-import { deleteProductMutation } from "../mutations/deleteProductMutation"
-import { updateProductMutation } from "../mutations/updateProductMutation";
+import { ADD_NEW_PRODUCT, UPDATE_PRODUCT, DELETE_PRODUCT } from "../graphql/mutations";
+import { gqlHelper } from "../helpers/gql-helper";
 import toast from 'react-hot-toast';
-
-const API_URL = `http://localhost:3000/graphql`;
 
 export const useMutate = () => {
   const queryClient = useQueryClient()
@@ -18,21 +15,21 @@ export const useMutate = () => {
   }
   // Product Mutations
 
-  const addProduct = useMutation(addProductMutation,
+  const addProduct = useMutation((input) => gqlHelper(ADD_NEW_PRODUCT, input),
     {
       onSuccess: (response) => {
         checkResponse(response)
       }
     });
 
-  const deleteProduct = useMutation(deleteProductMutation,
+  const deleteProduct = useMutation((input) => gqlHelper(DELETE_PRODUCT, input),
     {
       onSuccess: (response) => {
         checkResponse(response)
       }
     })
 
-  const updateProduct = useMutation(updateProductMutation,
+  const updateProduct = useMutation((input) => gqlHelper(UPDATE_PRODUCT, input),
     {
       onSuccess: (response) => {
         checkResponse(response)

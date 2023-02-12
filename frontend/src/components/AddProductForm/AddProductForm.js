@@ -9,7 +9,7 @@ const AddProductForm = () => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const data = Object.fromEntries(formData);
-    const input = { name: data.name, price: data.price}
+    const input = { name: data.name, price: parseFloat(data.price)}
     addProduct.mutate(input)
     e.target.reset();
   };

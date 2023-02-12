@@ -5,7 +5,8 @@ const Product = ({ product }) => {
   const { deleteProduct } = useMutate()
 
   function handleClick() {
-    deleteProduct.mutate(product)
+    const input = { id: product.id }
+    deleteProduct.mutate(input)
   }
 
   return (

@@ -13,6 +13,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     checkResetTokenMutation.mutate({reset_password_token: token})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit = async (e) => {

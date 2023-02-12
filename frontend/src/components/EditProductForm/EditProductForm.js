@@ -6,7 +6,7 @@ import { useProducts } from "../../hooks/product-hooks"
 const EditProductForm = () => {
   const formRef = useRef()
   const { updateProduct } = useMutate()
-  const { error, isLoading, isSuccess, data } = useProducts()
+  const { data } = useProducts()
 
   const handleSubmit = async (e) => {
     e.preventDefault()

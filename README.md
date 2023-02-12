@@ -34,6 +34,10 @@ Create your app user
 ```sh
 createuser -s authentication_app
 ```
+If postgres was installed correctly, you should be able to run the seed file
+```sh
+bin/rails db:seed
+```
 
 ### Javascript dependencies
 Install NVM
